@@ -19,6 +19,11 @@ export function ChatInput({
   const [text, setText] = useState(initialValue)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  // Auto-focus on initial mount
+  useEffect(() => {
+    textareaRef.current?.focus()
+  }, [])
+
   useEffect(() => {
     if (initialValue) {
       setText(initialValue)
@@ -41,11 +46,21 @@ export function ChatInput({
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault()
     if (!text.trim() || disabled || isGenerating) return
-    onSendMessage(text.trim())
+
+    const messageToSend = text.trim()
     setText('')
+
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
+      textareaRef.current.focus()
     }
+
+    onSendMessage(messageToSend)
+
+    // Ensure cursor stays focused inside textarea
+    requestAnimationFrame(() => {
+      textareaRef.current?.focus()
+    })
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -57,7 +72,7 @@ export function ChatInput({
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 pb-4">
-      {/* Input container matching screenshot */}
+      {/* Input container */}
       <form
         onSubmit={handleSubmit}
         className="relative flex items-center gap-3.5 rounded-2xl border border-neutral-300 bg-white px-4 py-3.5 shadow-lg transition-colors focus-within:border-amber-500 focus-within:ring-1 focus-within:ring-amber-500/40 dark:border-white/10 dark:bg-[#202022] dark:focus-within:border-amber-400/50 dark:focus-within:ring-amber-400/30"
@@ -67,13 +82,13 @@ export function ChatInput({
           <Sparkles className="size-5" />
         </div>
 
-        {/* Textarea Input */}
+        {/* Textarea Input - Always keeps focus and never blurs */}
         <textarea
           ref={textareaRef}
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKeyDown}
-          disabled={disabled || isGenerating}
+          disabled={disabled}
           rows={1}
           placeholder="How can I help you?"
           className="max-h-44 min-h-[26px] flex-1 resize-none bg-transparent text-[15px] sm:text-base text-neutral-900 placeholder-neutral-400 outline-none leading-relaxed dark:text-white dark:placeholder-white/45"
