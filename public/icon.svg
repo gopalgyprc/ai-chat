@@ -1,0 +1,23 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="16" fill="#121214"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" stroke="url(#borderGlow)" stroke-width="2"/>
+  <rect x="8" y="8" width="48" height="48" rx="12" fill="url(#sparkleBg)"/>
+  
+  <!-- 4-point Signature Sparkle Star -->
+  <path d="M32 17C32 24 37 29 44 32C37 35 32 40 32 47C32 40 27 35 20 32C27 29 32 24 32 17Z" fill="#121214"/>
+  
+  <!-- Mini Accent Sparkle -->
+  <path d="M43 19C43 21 44.5 22.5 46.5 23.5C44.5 24.5 43 26 43 28C43 26 41.5 24.5 39.5 23.5C41.5 22.5 43 21 43 19Z" fill="#121214" opacity="0.85"/>
+  
+  <defs>
+    <linearGradient id="sparkleBg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FCD34D"/>
+      <stop offset="0.5" stop-color="#FBBF24"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="borderGlow" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBBF24" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#F97316" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+</svg>
