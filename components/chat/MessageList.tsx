@@ -15,8 +15,8 @@ export function MessageList({ messages, isGenerating = false, userName }: Messag
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isGenerating])
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+  }, [messages.length, isGenerating])
 
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col px-4 py-6">
@@ -24,7 +24,7 @@ export function MessageList({ messages, isGenerating = false, userName }: Messag
         <MessageBubble key={msg.id} message={msg} userName={userName} />
       ))}
       {isGenerating && <TypingIndicator />}
-      <div ref={bottomRef} />
+      <div ref={bottomRef} className="h-2" />
     </div>
   )
 }

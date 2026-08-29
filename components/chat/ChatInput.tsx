@@ -19,16 +19,16 @@ export function ChatInput({
   const [text, setText] = useState(initialValue)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  // Auto-focus on initial mount
+  // Always keep focus on mount and when generation status changes
   useEffect(() => {
-    textareaRef.current?.focus()
-  }, [])
+    textareaRef.current?.focus({ preventScroll: true })
+  }, [isGenerating])
 
   useEffect(() => {
     if (initialValue) {
       setText(initialValue)
       if (textareaRef.current) {
-        textareaRef.current.focus()
+        textareaRef.current.focus({ preventScroll: true })
       }
     }
   }, [initialValue])
@@ -44,7 +44,10 @@ export function ChatInput({
   }, [text])
 
   const handleSubmit = (e?: React.FormEvent) => {
-    if (e) e.preventDefault()
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     if (!text.trim() || disabled || isGenerating) return
 
     const messageToSend = text.trim()
@@ -52,20 +55,24 @@ export function ChatInput({
 
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
-      textareaRef.current.focus()
+      textareaRef.current.focus({ preventScroll: true })
     }
 
     onSendMessage(messageToSend)
 
-    // Ensure cursor stays focused inside textarea
+    // Ensure cursor stays focused without any blur
     requestAnimationFrame(() => {
-      textareaRef.current?.focus()
+      textareaRef.current?.focus({ preventScroll: true })
     })
+    setTimeout(() => {
+      textareaRef.current?.focus({ preventScroll: true })
+    }, 50)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
+      e.stopPropagation()
       handleSubmit()
     }
   }
@@ -82,7 +89,7 @@ export function ChatInput({
           <Sparkles className="size-5" />
         </div>
 
-        {/* Textarea Input - Always keeps focus and never blurs */}
+        {/* Textarea Input - Always keeps cursor focus */}
         <textarea
           ref={textareaRef}
           value={text}
@@ -90,6 +97,7 @@ export function ChatInput({
           onKeyDown={handleKeyDown}
           disabled={disabled}
           rows={1}
+          autoFocus
           placeholder="How can I help you?"
           className="max-h-44 min-h-[26px] flex-1 resize-none bg-transparent text-[15px] sm:text-base text-neutral-900 placeholder-neutral-400 outline-none leading-relaxed dark:text-white dark:placeholder-white/45"
         />
