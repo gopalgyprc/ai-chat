@@ -1,14 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import {
   GraduationCap,
-  BookOpen,
   FolderGit2,
   Briefcase,
-  Sparkles,
-  FileText,
-  HelpCircle,
 } from 'lucide-react'
 
 interface ChatWelcomeProps {
@@ -16,8 +12,6 @@ interface ChatWelcomeProps {
 }
 
 export function ChatWelcome({ onSelectPrompt }: ChatWelcomeProps) {
-  const [activeTab, setActiveTab] = useState<'study' | 'projects' | 'career'>('study')
-
   const columns = [
     {
       title: 'Academics & Study',
@@ -89,45 +83,6 @@ export function ChatWelcome({ onSelectPrompt }: ChatWelcomeProps) {
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center px-4 py-8 text-center sm:py-12">
-      {/* Category Pills */}
-      <div className="mb-10 inline-flex items-center rounded-full border border-neutral-200 bg-neutral-100 p-1.5 shadow-xs dark:border-white/10 dark:bg-[#161619]">
-        <button
-          onClick={() => setActiveTab('study')}
-          className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-all cursor-pointer ${
-            activeTab === 'study'
-              ? 'bg-white text-neutral-900 shadow-xs dark:bg-white/15 dark:text-white'
-              : 'text-neutral-600 hover:text-neutral-900 dark:text-white/60 dark:hover:text-white'
-          }`}
-        >
-          <BookOpen className="size-4 text-amber-500" />
-          <span>Study & Exams</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('projects')}
-          className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-all cursor-pointer ${
-            activeTab === 'projects'
-              ? 'bg-white text-neutral-900 shadow-xs dark:bg-white/15 dark:text-white'
-              : 'text-neutral-600 hover:text-neutral-900 dark:text-white/60 dark:hover:text-white'
-          }`}
-        >
-          <FolderGit2 className="size-4 text-orange-500" />
-          <span>Final Year Projects</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('career')}
-          className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-all cursor-pointer ${
-            activeTab === 'career'
-              ? 'bg-white text-neutral-900 shadow-xs dark:bg-white/15 dark:text-white'
-              : 'text-neutral-600 hover:text-neutral-900 dark:text-white/60 dark:hover:text-white'
-          }`}
-        >
-          <Briefcase className="size-4 text-emerald-500" />
-          <span>Career & Placements</span>
-        </button>
-      </div>
-
       {/* Main Title */}
       <h1 className="mb-2 text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
         University AI Assistant
