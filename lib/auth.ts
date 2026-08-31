@@ -42,7 +42,6 @@ export async function signInWithGoogle(): Promise<AppUser | null> {
       localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(appUser))
     }
 
-    // Sync to Firestore user document asynchronously without blocking
     try {
       const userRef = doc(db, 'users', fbUser.uid)
       setDoc(
@@ -110,7 +109,7 @@ export function subscribeToAuth(callback: (user: AppUser | null) => void) {
   if (!isFirebaseConfigured) {
     const user = getStoredUser()
     callback(user)
-    return () => {}
+    return () => { }
   }
 
   return onAuthStateChanged(auth, (fbUser: User | null) => {
