@@ -47,7 +47,6 @@ export function ChatSidebar({
     return (
       <aside className="relative flex h-screen w-16 flex-col items-center justify-between border-r border-neutral-200 bg-[#f0f1f3] py-4 transition-all duration-300 dark:border-white/10 dark:bg-[#121214]">
         <div className="flex flex-col items-center gap-4">
-          {/* Gold Sparkle Logo */}
           <button
             onClick={onNewChat}
             className="flex size-10 items-center justify-center rounded-xl bg-[#fbbf24] text-black shadow-lg shadow-amber-500/20 transition-transform hover:scale-105 cursor-pointer"
@@ -122,11 +121,10 @@ export function ChatSidebar({
               <div
                 key={conv.id}
                 onClick={() => onSelectConversation(conv)}
-                className={`group flex items-center justify-between rounded-xl px-3 py-2 text-[13px] sm:text-sm cursor-pointer transition-all ${
-                  isActive
+                className={`group flex items-center justify-between rounded-xl px-3 py-2 text-[13px] sm:text-sm cursor-pointer transition-all ${isActive
                     ? 'bg-neutral-300/80 font-semibold text-neutral-900 dark:bg-white/15 dark:font-medium dark:text-white shadow-sm'
                     : 'text-neutral-700 hover:bg-neutral-200/60 dark:text-white/75 dark:hover:bg-white/5 dark:hover:text-white'
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
                   <Sparkles className="size-4 shrink-0 text-neutral-400 dark:text-white/50 group-hover:text-amber-500 dark:group-hover:text-amber-400" />
