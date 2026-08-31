@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Sparkles, Code2, PenTool, BookOpen, Languages, Copy, Check, ArrowRight } from 'lucide-react'
+import { Code2, PenTool, BookOpen, Languages, Copy, Check, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 export function PromptShowcase() {
@@ -10,60 +10,96 @@ export function PromptShowcase() {
 
   const showcases = [
     {
-      tab: 'Full-Stack Coding',
+      tab: 'TypeScript & React',
       icon: Code2,
-      tag: 'TypeScript & Next.js',
-      prompt: 'Write a clean React 19 hook for optimistic state dispatch with real-time SSE token streaming.',
-      response: `export function useStreamChat({ endpoint = '/api/chat' }) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [isStreaming, setIsStreaming] = useState(false);
+      category: 'Coding & Debugging',
+      prompt: 'How do I handle optimistic UI updates with React 19 useOptimistic without blocking user typing?',
+      response: `import { useOptimistic, useState, useTransition } from 'react';
 
-  const sendMessage = async (prompt: string) => {
-    // 1. Optimistically append user message
-    const userMsg = { id: crypto.randomUUID(), role: 'user', content: prompt };
-    setMessages(prev => [...prev, userMsg]);
-    setIsStreaming(true);
+export function ChatFeed({ initialMessages }: { initialMessages: string[] }) {
+  const [messages, setMessages] = useState(initialMessages);
+  const [isPending, startTransition] = useTransition();
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      body: JSON.stringify({ message: prompt })
+  // Optimistic state updates immediately on user action
+  const [optimisticMessages, addOptimistic] = useOptimistic(
+    messages,
+    (state, newMsg: string) => [...state, { text: newMsg, sending: true }]
+  );
+
+  async function handleSend(formData: FormData) {
+    const text = formData.get('message') as string;
+    if (!text.trim()) return;
+
+    startTransition(async () => {
+      addOptimistic(text);
+      await sendMessageToServer(text);
+      setMessages((prev) => [...prev, { text, sending: false }]);
     });
-    // 2. Real-time stream reader loop
-    const reader = response.body?.getReader();
-    ...
-  };
-  return { messages, isStreaming, sendMessage };
+  }
+
+  return (
+    <div>
+      {optimisticMessages.map((msg, i) => (
+        <p key={i} className={msg.sending ? 'opacity-50' : 'opacity-100'}>
+          {msg.text}
+        </p>
+      ))}
+    </div>
+  );
 }`,
     },
     {
-      tab: 'Creative Writing',
+      tab: 'Content & Copywriting',
       icon: PenTool,
-      tag: 'Story & Prose',
-      prompt: 'Write a poetic opening paragraph for a sci-fi novel about sentient ancient redwoods.',
-      response: `The old root-heart pulsed beneath three centuries of loam, listening to the silver hum of satellites orbiting in the cold dark above. While the two-legged creatures built cities of glass and titanium that crumbled in mere decades, the coastal giants wove a subterranean fiber-optic network of mycorrhizal intelligence—quietly archiving every thunderstorm, solar flare, and whispered secret since the dawn of the Holocene.`,
+      category: 'Product Writing',
+      prompt: 'Write a clear, friendly product announcement email for a v2 release with local-first offline support.',
+      response: `Subject: Introducing AIchat v2: Faster streaming, offline support, and zero clutter
+
+Hey everyone,
+
+Today we’re launching AIchat v2 — built specifically for developers and creators who need a fast, reliable AI workspace.
+
+Here’s what’s new:
+• Sub-25ms token streaming: Instant responses powered by Gemini 3.6 Flash.
+• Local-first persistence: Your chats write directly to local storage in 0ms, so you never lose your train of thought on unstable WiFi.
+• Smart follow-up suggestions: Contextual 1-click prompts appear after each answer to keep your research moving forward.
+
+Try it today with Google Sign-In or jump straight into the demo with zero setup.
+
+Happy building,
+The AIchat Team`,
     },
     {
-      tab: 'Deep Research',
+      tab: 'System Architecture',
       icon: BookOpen,
-      tag: 'Academic Synthesis',
-      prompt: 'Explain the difference between Transformer Attention Mechanisms and State Space Models (Mamba).',
-      response: `### 1. Quadratic vs. Linear Complexity:
-- **Transformers (Standard Self-Attention)** compute pairwise relationships between all tokens, resulting in **O(N²)** time/memory complexity relative to sequence length.
-- **State Space Models (e.g. Mamba)** compress historical context into a hidden state vector recurrently, achieving **O(N)** linear inference speed and constant memory footprint.
+      category: 'Technical Synthesis',
+      prompt: 'Explain the difference between Server-Sent Events (SSE) and WebSockets for real-time AI token streaming.',
+      response: `### Server-Sent Events (SSE) vs. WebSockets for AI Streaming
 
-### 2. Long-Context Trade-offs:
-Mamba excels at continuous streaming throughput, while Transformers maintain higher recall fidelity across arbitrary token coordinates.`,
+1. Directionality & Protocol:
+   • SSE operates over standard HTTP/1.1 or HTTP/2. It is unidirectional (Server → Client), making it the ideal protocol for streaming LLM tokens.
+   • WebSockets establish a full-duplex, bidirectional TCP connection, which adds handshake overhead and state management complexity.
+
+2. Resilience & Reconnection:
+   • SSE includes built-in automatic reconnection and message ID tracking natively in browser EventSource APIs.
+   • WebSockets require custom heartbeat ping/pong handlers and reconnection logic.
+
+3. Recommendation:
+   For AI text streaming, SSE over HTTP/2 provides lower latency, works cleanly with edge functions (Vercel, Cloudflare), and handles firewalls effortlessly.`,
     },
     {
-      tab: 'Global Translation',
+      tab: 'Multilingual Translation',
       icon: Languages,
-      tag: 'Multi-Language',
-      prompt: 'Translate "The future of human-AI synergy starts with effortless communication" into Spanish, Japanese & German.',
-      response: `🇪🇸 **Spanish**: *El futuro de la sinergia entre humanos y la IA comienza con una comunicación sin esfuerzo.*
+      category: 'Global Localization',
+      prompt: 'Translate "Our workspace stores data locally on your device for instant access" into Spanish, French, and Japanese.',
+      response: `🇪🇸 Spanish:
+"Nuestro espacio de trabajo almacena los datos localmente en su dispositivo para un acceso instantáneo."
 
-🇯🇵 **Japanese**: *人間とAIの相乗効果の未来は、スムーズなコミュニケーションから始まります。*
+🇫🇷 French:
+"Notre espace de travail stocke les données localement sur votre appareil pour un accès instantané."
 
-🇩🇪 **German**: *Die Zukunft der Synergie zwischen Mensch und KI beginnt mit müheloser Kommunikation.*`,
+🇯🇵 Japanese:
+"当ワークスペースは端末ローカルにデータを保存し、即座にアクセスできます。"`,
     },
   ]
 
@@ -76,26 +112,18 @@ Mamba excels at continuous streaming throughput, while Transformers maintain hig
   }
 
   return (
-    <section className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 sm:px-12 sm:py-28">
-      {/* Header */}
-      <div className="text-center max-w-3xl mx-auto">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-xs backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
-          <Sparkles className="size-3.5 text-amber-500 dark:text-amber-400" />
-          <span>Interactive Showcase</span>
-        </div>
-        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl text-neutral-900 dark:text-white leading-tight">
-          One Intelligent Core,{' '}
-          <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-            Limitless Possibilities
-          </span>
+    <section className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-neutral-100 dark:border-neutral-900">
+      <div className="max-w-2xl">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          See it in action
         </h2>
-        <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-white/70 leading-relaxed">
-          Switch between real-world use cases to see how Alchat handles intricate requirements with precision.
+        <p className="mt-3 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400">
+          From complex TypeScript hooks to technical documentation and systems architecture.
         </p>
       </div>
 
-      {/* Preset Tabs Switcher */}
-      <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+      {/* Tabs */}
+      <div className="mt-8 flex flex-wrap gap-2">
         {showcases.map((s, idx) => {
           const Icon = s.icon
           const isActive = activeTab === idx
@@ -103,47 +131,43 @@ Mamba excels at continuous streaming throughput, while Transformers maintain hig
             <button
               key={s.tab}
               onClick={() => setActiveTab(idx)}
-              className={`flex items-center gap-2.5 rounded-full px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
                 isActive
-                  ? 'bg-neutral-900 text-white dark:bg-white dark:text-black shadow-md scale-105'
-                  : 'bg-white/80 text-neutral-600 hover:bg-neutral-100 dark:bg-white/5 dark:text-white/70 dark:hover:bg-white/10'
+                  ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
+                  : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800'
               }`}
             >
-              <Icon className={`size-4 ${isActive ? 'text-amber-400 dark:text-amber-600' : ''}`} />
+              <Icon className="size-3.5" />
               <span>{s.tab}</span>
             </button>
           )
         })}
       </div>
 
-      {/* Interactive Code / Prompt Preview Frame */}
-      <div className="mt-10 mx-auto max-w-4xl overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl dark:border-white/10 dark:bg-[#121214]">
-        {/* Top Prompt Box */}
-        <div className="border-b border-neutral-200 bg-neutral-50/80 p-5 sm:p-6 dark:border-white/10 dark:bg-[#18181b]">
-          <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-white/50 mb-2">
-            <span className="font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-              User Prompt ({current.tag})
+      {/* Interactive Window */}
+      <div className="mt-6 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-[#121214]">
+        {/* User Prompt Bar */}
+        <div className="border-b border-neutral-200 bg-neutral-50/70 p-4 sm:p-5 dark:border-neutral-800 dark:bg-[#161618]">
+          <div className="flex items-center justify-between text-xs text-neutral-500 mb-1.5">
+            <span className="font-semibold text-amber-600 dark:text-amber-400">
+              Prompt ({current.category})
             </span>
             <span>Input</span>
           </div>
-          <p className="text-sm sm:text-base font-medium text-neutral-900 dark:text-white">
+          <p className="text-sm sm:text-base font-medium text-neutral-900 dark:text-neutral-100">
             &ldquo;{current.prompt}&rdquo;
           </p>
         </div>
 
-        {/* Output Response Box */}
-        <div className="p-6 sm:p-8">
-          <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-white/50 mb-4">
-            <div className="flex items-center gap-2">
-              <div className="flex size-5 items-center justify-center rounded-md bg-amber-500/20 text-amber-500">
-                <Sparkles className="size-3" />
-              </div>
-              <span className="font-semibold text-neutral-800 dark:text-white/80">Alchat Response</span>
-            </div>
-
+        {/* AI Response Output */}
+        <div className="p-4 sm:p-6 lg:p-8">
+          <div className="flex items-center justify-between pb-3 text-xs text-neutral-500 border-b border-neutral-100 dark:border-neutral-800/60 mb-4">
+            <span className="font-semibold text-neutral-800 dark:text-neutral-200">
+              AIchat Response
+            </span>
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 rounded-lg border border-neutral-200 px-3 py-1 text-xs text-neutral-700 hover:bg-neutral-100 dark:border-white/10 dark:text-white/80 dark:hover:bg-white/5 cursor-pointer"
+              className="flex items-center gap-1.5 rounded-md border border-neutral-200 px-2.5 py-1 text-xs text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 cursor-pointer"
             >
               {copied ? (
                 <>
@@ -159,21 +183,21 @@ Mamba excels at continuous streaming throughput, while Transformers maintain hig
             </button>
           </div>
 
-          <pre className="overflow-x-auto whitespace-pre-wrap font-sans text-xs sm:text-sm text-neutral-800 dark:text-white/90 leading-relaxed bg-neutral-100/60 dark:bg-black/40 p-5 rounded-2xl border border-neutral-200/50 dark:border-white/5 custom-scrollbar">
+          <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-xs sm:text-sm text-neutral-800 dark:text-neutral-200 leading-relaxed bg-neutral-50 dark:bg-[#0d0d0f] p-4 sm:p-5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 custom-scrollbar">
             {current.response}
           </pre>
         </div>
 
-        {/* Footer CTA */}
-        <div className="border-t border-neutral-200 bg-neutral-50 p-4 sm:px-8 flex items-center justify-between text-xs dark:border-white/5 dark:bg-[#18181b]">
-          <span className="text-neutral-500 dark:text-white/50">
-            Powered by Google Gemini 3.6 Multimodal
+        {/* Footer */}
+        <div className="flex items-center justify-between border-t border-neutral-200 bg-neutral-50 px-4 py-3 sm:px-6 text-xs dark:border-neutral-800 dark:bg-[#161618]">
+          <span className="text-neutral-500 dark:text-neutral-400">
+            Powered by Google Gemini 3.6 Flash
           </span>
           <Link
-            href="/login"
-            className="flex items-center gap-1.5 font-semibold text-amber-600 dark:text-amber-400 hover:underline"
+            href="/chat"
+            className="flex items-center gap-1 font-semibold text-neutral-900 hover:underline dark:text-white"
           >
-            Launch workspace <ArrowRight className="size-3.5" />
+            Try in workspace <ArrowRight className="size-3.5" />
           </Link>
         </div>
       </div>

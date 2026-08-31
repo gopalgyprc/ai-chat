@@ -1,33 +1,45 @@
 import { Header } from '@/components/landing/Header'
 import { Hero } from '@/components/landing/Hero'
 import { ProductPreview } from '@/components/landing/ProductPreview'
-import { MetricsSection } from '@/components/landing/MetricsSection'
-import { FeatureGrid } from '@/components/landing/FeatureGrid'
-import { HowItWorks } from '@/components/landing/HowItWorks'
+import { Features } from '@/components/landing/Features'
 import { PromptShowcase } from '@/components/landing/PromptShowcase'
-import { Testimonials } from '@/components/landing/Testimonials'
-import { ComparisonFaq } from '@/components/landing/ComparisonFaq'
-import { CtaBanner } from '@/components/landing/CtaBanner'
+import { HowItWorks } from '@/components/landing/HowItWorks'
+import { WhyAIchat } from '@/components/landing/WhyAIchat'
+import { FaqSection } from '@/components/landing/FaqSection'
+import { FinalCta } from '@/components/landing/FinalCta'
 import { Footer } from '@/components/landing/Footer'
 
 export function LandingPage() {
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden bg-[#f8f9fa] text-neutral-900 transition-colors duration-200 dark:bg-[#050505] dark:text-white flex flex-col justify-between">
-      <div className="pointer-events-none absolute left-1/2 top-[260px] h-[750px] w-full max-w-[1400px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(246,110,70,0.22)_0%,rgba(251,191,36,0.12)_38%,transparent_72%)] blur-3xl dark:bg-[radial-gradient(ellipse_at_center,rgba(246,71,31,0.65)_0%,rgba(204,48,20,0.25)_38%,transparent_72%)]" />
+    <main className="min-h-screen w-full bg-white text-neutral-900 transition-colors duration-200 dark:bg-[#09090b] dark:text-neutral-100 flex flex-col justify-between">
+      {/* Top Navbar */}
       <Header />
-      <div className="relative z-10 w-full px-4 sm:px-8">
-        <Hero />
-      </div>
-      <div className="relative z-10 mx-auto mt-10 w-full px-4 sm:mt-14 sm:px-8">
-        <ProductPreview />
-      </div>
-      <MetricsSection />
-      <FeatureGrid />
-      <HowItWorks />
+
+      {/* Hero Section */}
+      <Hero />
+
+      {/* Product Preview Mockup */}
+      <ProductPreview />
+
+      {/* Meaningful, Real Features Grid */}
+      <Features />
+
+      {/* Interactive Prompt & Response Playground */}
       <PromptShowcase />
-      <Testimonials />
-      <ComparisonFaq />
-      <CtaBanner />
+
+      {/* 3-Step Simple How It Works */}
+      <HowItWorks />
+
+      {/* Why AIchat Value Breakdown */}
+      <WhyAIchat />
+
+      {/* Straightforward FAQ Section */}
+      <FaqSection />
+
+      {/* Final Call to Action */}
+      <FinalCta />
+
+      {/* Footer */}
       <Footer />
     </main>
   )
