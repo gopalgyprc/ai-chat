@@ -6,10 +6,8 @@ export function CtaBanner() {
   return (
     <section className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16 sm:px-12 sm:py-24">
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 p-8 sm:p-16 text-center text-black shadow-2xl shadow-orange-500/20">
-        {/* Glow orb */}
         <div className="pointer-events-none absolute -right-16 -top-16 size-72 rounded-full bg-white/20 blur-3xl" />
         <div className="pointer-events-none absolute -left-16 -bottom-16 size-72 rounded-full bg-black/20 blur-3xl" />
-
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 rounded-full bg-black/15 px-4 py-1.5 text-xs font-bold text-black mb-6">
             <Zap className="size-3.5 fill-black" />

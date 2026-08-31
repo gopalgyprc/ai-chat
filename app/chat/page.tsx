@@ -238,6 +238,7 @@ export default function ChatPage() {
               messages={displayMessages}
               isGenerating={isGenerating && !streamingContent}
               userName={user.name}
+              onSelectSuggestion={handleSendMessage}
             />
           )}
         </div>

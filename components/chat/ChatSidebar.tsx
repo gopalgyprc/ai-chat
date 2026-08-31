@@ -54,8 +54,6 @@ export function ChatSidebar({
           >
             <Sparkle className="size-5 fill-black" />
           </button>
-
-          {/* Expand Button */}
           <button
             onClick={onToggleCollapse}
             aria-label="Expand sidebar"
@@ -64,8 +62,6 @@ export function ChatSidebar({
           >
             <ChevronRight className="size-4" />
           </button>
-
-          {/* New Chat Button */}
           <button
             onClick={onNewChat}
             aria-label="New chat"
@@ -75,8 +71,6 @@ export function ChatSidebar({
             <Plus className="size-4" />
           </button>
         </div>
-
-        {/* User avatar when collapsed */}
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
@@ -122,8 +116,8 @@ export function ChatSidebar({
                 key={conv.id}
                 onClick={() => onSelectConversation(conv)}
                 className={`group flex items-center justify-between rounded-xl px-3 py-2 text-[13px] sm:text-sm cursor-pointer transition-all ${isActive
-                    ? 'bg-neutral-300/80 font-semibold text-neutral-900 dark:bg-white/15 dark:font-medium dark:text-white shadow-sm'
-                    : 'text-neutral-700 hover:bg-neutral-200/60 dark:text-white/75 dark:hover:bg-white/5 dark:hover:text-white'
+                  ? 'bg-neutral-300/80 font-semibold text-neutral-900 dark:bg-white/15 dark:font-medium dark:text-white shadow-sm'
+                  : 'text-neutral-700 hover:bg-neutral-200/60 dark:text-white/75 dark:hover:bg-white/5 dark:hover:text-white'
                   }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">

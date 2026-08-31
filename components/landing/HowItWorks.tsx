@@ -26,7 +26,6 @@ export function HowItWorks() {
 
   return (
     <section className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 sm:px-12 sm:py-28">
-      {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-xs backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
           <Sparkles className="size-3.5 text-amber-500 dark:text-amber-400" />
@@ -42,8 +41,6 @@ export function HowItWorks() {
           From first question to complete project realization, Alchat keeps you in continuous flow state.
         </p>
       </div>
-
-      {/* 3 Steps Cards */}
       <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
         {steps.map((step, idx) => {
           const Icon = step.icon
@@ -79,8 +76,6 @@ export function HowItWorks() {
           )
         })}
       </div>
-
-      {/* Interactive Flow Callout */}
       <div className="mt-14 flex justify-center">
         <Link
           href="/login"

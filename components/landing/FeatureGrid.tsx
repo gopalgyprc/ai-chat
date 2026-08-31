@@ -59,7 +59,6 @@ export function FeatureGrid() {
 
   return (
     <section id="features" className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 sm:px-12 sm:py-28">
-      {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-xs backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
           <Sparkles className="size-3.5 text-amber-500 dark:text-amber-400" />
@@ -75,8 +74,6 @@ export function FeatureGrid() {
           Engineered to give developers, creators, and thinkers the ultimate leverage with zero friction.
         </p>
       </div>
-
-      {/* 6 Features Grid */}
       <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {features.map((f) => {
           const Icon = f.icon
@@ -85,7 +82,6 @@ export function FeatureGrid() {
               key={f.title}
               className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-neutral-200 bg-white/80 p-8 shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:border-amber-500/50 hover:shadow-xl dark:border-white/10 dark:bg-[#141416]/80"
             >
-              {/* Subtle top glow */}
               <div
                 className={`pointer-events-none absolute -top-12 -left-12 size-40 rounded-full bg-gradient-to-br ${f.glow} blur-2xl transition-opacity duration-300 group-hover:opacity-100 opacity-50`}
               />

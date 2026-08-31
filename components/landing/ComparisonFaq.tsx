@@ -70,7 +70,6 @@ export function ComparisonFaq() {
 
   return (
     <section className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 sm:px-12 sm:py-28">
-      {/* Comparison Section */}
       <div className="text-center max-w-3xl mx-auto">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-xs backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
           <Sparkles className="size-3.5 text-amber-500 dark:text-amber-400" />
@@ -86,8 +85,6 @@ export function ComparisonFaq() {
           See how our architecture and interface compare to standard chatbot web apps.
         </p>
       </div>
-
-      {/* Comparison Table */}
       <div className="mt-14 overflow-x-auto">
         <div className="min-w-[620px] overflow-hidden rounded-3xl border border-neutral-200 bg-white/90 shadow-xl dark:border-white/10 dark:bg-[#141416]/90">
           <table className="w-full text-left text-sm">
@@ -113,8 +110,6 @@ export function ComparisonFaq() {
           </table>
         </div>
       </div>
-
-      {/* FAQ Accordion */}
       <div className="mt-28 max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-xs backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
@@ -140,9 +135,8 @@ export function ComparisonFaq() {
                 >
                   <span>{faq.q}</span>
                   <ChevronDown
-                    className={`size-5 text-neutral-500 transition-transform duration-200 shrink-0 ml-4 ${
-                      isOpen ? 'rotate-180 text-amber-500' : ''
-                    }`}
+                    className={`size-5 text-neutral-500 transition-transform duration-200 shrink-0 ml-4 ${isOpen ? 'rotate-180 text-amber-500' : ''
+                      }`}
                   />
                 </button>
                 {isOpen && (

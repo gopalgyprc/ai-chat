@@ -35,7 +35,6 @@ export function ProductPreview() {
   return (
     <div className="preview-frame relative mx-auto w-full max-w-6xl overflow-hidden rounded-2xl sm:rounded-[24px] border border-neutral-300 bg-white p-2 sm:p-3.5 shadow-2xl transition-colors duration-200 dark:border-[#5b3027] dark:bg-[#160b0a] dark:shadow-[0_-25px_120px_rgba(244,71,28,0.25)]">
       <div className="flex w-full overflow-hidden rounded-xl sm:rounded-[18px] border border-neutral-200 bg-neutral-50 dark:border-white/10 dark:bg-[#1b0d0c]">
-        {/* Left Navigation Panel (Visible on md and above) */}
         <aside className="hidden md:flex w-[190px] lg:w-[220px] shrink-0 flex-col border-r border-neutral-200 bg-[#f4f5f7] p-4 text-xs text-neutral-600 transition-colors duration-200 dark:border-white/10 dark:bg-[#1c0d0c] dark:text-white/60">
           <div className="mb-5 flex items-center justify-between">
             <div>
@@ -80,10 +79,7 @@ export function ProductPreview() {
             </div>
           ))}
         </aside>
-
-        {/* Central Chat Window (100% full-width on mobile) */}
         <section className="flex-1 min-w-0 bg-white p-4 sm:p-6 transition-colors duration-200 dark:bg-[#1c0e0d]">
-          {/* Mobile Top App Bar (Only visible on mobile screens) */}
           <div className="flex md:hidden items-center justify-between border-b border-neutral-200 pb-3 mb-3 dark:border-white/10">
             <div className="flex items-center gap-2">
               <div className="flex size-7 items-center justify-center rounded-lg bg-[#fbbf24] text-black">
@@ -153,8 +149,6 @@ export function ProductPreview() {
             </button>
           </div>
         </section>
-
-        {/* Right History Panel (Visible on lg and above) */}
         <aside className="hidden lg:flex w-[190px] lg:w-[220px] shrink-0 flex-col border-l border-neutral-200 bg-[#f4f5f7] p-4 text-xs text-neutral-600 transition-colors duration-200 dark:border-white/10 dark:bg-[#1b0c0b] dark:text-white/60">
           <div className="mb-5 flex items-center justify-between">
             <Bell className="size-3.5 text-neutral-500 dark:text-white/70" />

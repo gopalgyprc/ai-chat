@@ -40,7 +40,6 @@ export function MetricsSection() {
 
   return (
     <section className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16 sm:px-12 sm:py-20">
-      {/* Logos ticker / subtitle */}
       <div className="text-center">
         <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 dark:text-white/40">
           Powered by industry-leading technology & frontier AI
@@ -56,8 +55,6 @@ export function MetricsSection() {
           ))}
         </div>
       </div>
-
-      {/* Metrics Cards Grid */}
       <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {metrics.map((m) => {
           const Icon = m.icon
