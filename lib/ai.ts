@@ -15,16 +15,12 @@ export interface StreamCallbacks {
   onDone: (fullText: string) => void
   onError: (error: Error) => void
 }
-
-/**
- * Generate AI Response stream using Google Gemini API with GoogleGenAI SDK
- */
 export async function streamGeminiChat(
   message: string,
   history: MessageInput[] = [],
   callbacks: StreamCallbacks
 ) {
-  // Read apiKey dynamically at request time from environment variables
+
   const apiKey =
     cleanEnv(process.env.GEMINI_API_KEY) ||
     cleanEnv(process.env.AI_API_KEY) ||
@@ -59,7 +55,6 @@ export async function streamGeminiChat(
     'gemini-1.5-flash',
   ]
 
-  // Format multi-turn conversation history for @google/genai
   const formattedContents: any[] = [
     ...history
       .filter((h) => (h.role === 'user' || h.role === 'assistant') && h.content?.trim() !== '')
@@ -96,7 +91,7 @@ export async function streamGeminiChat(
 
         if (fullText.trim()) {
           callbacks.onDone(fullText)
-          return // Successfully generated live response from Gemini!
+          return
         }
       } catch (modelErr: any) {
         lastError = modelErr
@@ -108,7 +103,6 @@ export async function streamGeminiChat(
     console.error('Google GenAI client initialization error:', err)
   }
 
-  // If live models failed, stream the actual Gemini error message
   const fallbackAnswer =
     `⚠️ **Gemini API Error**: ${lastError?.message || 'Failed to stream response from Google Gemini.'}\n\n` +
     `Please verify your Google AI Studio key permissions and quota.`

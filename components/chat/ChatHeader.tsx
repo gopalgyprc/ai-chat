@@ -18,7 +18,6 @@ export function ChatHeader({
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-neutral-200 bg-white/90 px-5 backdrop-blur-md transition-colors dark:border-white/10 dark:bg-[#131314]/90">
       <div className="flex items-center gap-3.5">
-        {/* Mobile Hamburger toggle */}
         <button
           onClick={onToggleSidebar}
           aria-label="Open sidebar menu"
@@ -38,10 +37,7 @@ export function ChatHeader({
       </div>
 
       <div className="flex items-center gap-2.5">
-        {/* Theme Toggle Button in Header */}
         <ThemeToggle variant="icon" />
-
-        {/* New Chat Button */}
         <button
           onClick={onNewChat}
           className="flex items-center gap-1.5 rounded-xl border border-neutral-300 bg-neutral-100 px-3.5 py-2 text-xs font-medium text-neutral-800 transition-all hover:bg-neutral-200 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 cursor-pointer"

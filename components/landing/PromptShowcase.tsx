@@ -121,8 +121,6 @@ The AIchat Team`,
           From complex TypeScript hooks to technical documentation and systems architecture.
         </p>
       </div>
-
-      {/* Tabs */}
       <div className="mt-8 flex flex-wrap gap-2">
         {showcases.map((s, idx) => {
           const Icon = s.icon
@@ -131,11 +129,10 @@ The AIchat Team`,
             <button
               key={s.tab}
               onClick={() => setActiveTab(idx)}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
-                isActive
-                  ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
-                  : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800'
-              }`}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${isActive
+                ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
+                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800'
+                }`}
             >
               <Icon className="size-3.5" />
               <span>{s.tab}</span>
@@ -143,10 +140,7 @@ The AIchat Team`,
           )
         })}
       </div>
-
-      {/* Interactive Window */}
       <div className="mt-6 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-[#121214]">
-        {/* User Prompt Bar */}
         <div className="border-b border-neutral-200 bg-neutral-50/70 p-4 sm:p-5 dark:border-neutral-800 dark:bg-[#161618]">
           <div className="flex items-center justify-between text-xs text-neutral-500 mb-1.5">
             <span className="font-semibold text-amber-600 dark:text-amber-400">
@@ -158,8 +152,6 @@ The AIchat Team`,
             &ldquo;{current.prompt}&rdquo;
           </p>
         </div>
-
-        {/* AI Response Output */}
         <div className="p-4 sm:p-6 lg:p-8">
           <div className="flex items-center justify-between pb-3 text-xs text-neutral-500 border-b border-neutral-100 dark:border-neutral-800/60 mb-4">
             <span className="font-semibold text-neutral-800 dark:text-neutral-200">
@@ -187,8 +179,6 @@ The AIchat Team`,
             {current.response}
           </pre>
         </div>
-
-        {/* Footer */}
         <div className="flex items-center justify-between border-t border-neutral-200 bg-neutral-50 px-4 py-3 sm:px-6 text-xs dark:border-neutral-800 dark:bg-[#161618]">
           <span className="text-neutral-500 dark:text-neutral-400">
             Powered by Google Gemini 3.6 Flash

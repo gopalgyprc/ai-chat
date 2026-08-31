@@ -18,8 +18,6 @@ export function ChatInput({
 }: ChatInputProps) {
   const [text, setText] = useState(initialValue)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-
-  // Always keep focus on mount and when generation status changes
   useEffect(() => {
     textareaRef.current?.focus({ preventScroll: true })
   }, [isGenerating])
@@ -59,8 +57,6 @@ export function ChatInput({
     }
 
     onSendMessage(messageToSend)
-
-    // Ensure cursor stays focused without any blur
     requestAnimationFrame(() => {
       textareaRef.current?.focus({ preventScroll: true })
     })
@@ -79,17 +75,13 @@ export function ChatInput({
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 pb-4">
-      {/* Input container */}
       <form
         onSubmit={handleSubmit}
         className="relative flex items-center gap-3.5 rounded-2xl border border-neutral-300 bg-white px-4 py-3.5 shadow-lg transition-colors focus-within:border-amber-500 focus-within:ring-1 focus-within:ring-amber-500/40 dark:border-white/10 dark:bg-[#202022] dark:focus-within:border-amber-400/50 dark:focus-within:ring-amber-400/30"
       >
-        {/* Left Sparkles Icon */}
         <div className="flex shrink-0 items-center justify-center text-amber-500 dark:text-amber-400">
           <Sparkles className="size-5" />
         </div>
-
-        {/* Textarea Input - Always keeps cursor focus */}
         <textarea
           ref={textareaRef}
           value={text}
@@ -101,8 +93,6 @@ export function ChatInput({
           placeholder="How can I help you?"
           className="max-h-44 min-h-[26px] flex-1 resize-none bg-transparent text-[15px] sm:text-base text-neutral-900 placeholder-neutral-400 outline-none leading-relaxed dark:text-white dark:placeholder-white/45"
         />
-
-        {/* Send Button */}
         <button
           type="submit"
           disabled={!text.trim() || disabled || isGenerating}
@@ -116,8 +106,6 @@ export function ChatInput({
           )}
         </button>
       </form>
-
-      {/* Footer Disclaimer */}
       <p className="mt-2.5 text-center text-xs leading-relaxed text-neutral-500 dark:text-white/45">
         Ai Chat may produce inaccurate information about people, places, or facts.
         Version Wed Aug 2 9:31 PM. Privacy Policy. Legal Notice. Copyright © 2023 Ai Chat. All rights reserved.

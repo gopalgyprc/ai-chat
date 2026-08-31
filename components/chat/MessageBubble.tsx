@@ -48,20 +48,15 @@ export function MessageBubble({ message, userName }: MessageBubbleProps) {
   return (
     <div className="flex w-full justify-start py-4">
       <div className="flex max-w-[95%] items-start gap-3.5 sm:max-w-[88%]">
-        {/* AI Avatar */}
         <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-black shadow-md shadow-amber-500/20 mt-1">
           <Sparkles className="size-4 text-white" />
         </div>
-
-        {/* Message content box */}
         <div className="group relative flex flex-col items-start min-w-0 flex-1">
           <div className="w-full rounded-2xl rounded-tl-sm border border-neutral-200 bg-white px-6 py-5 text-[15px] sm:text-base text-neutral-900 shadow-sm dark:border-white/10 dark:bg-[#202022] dark:text-white/95">
             <div className="prose max-w-none text-[15px] sm:text-base leading-relaxed space-y-3.5 [&_p]:my-2.5 [&_h1]:text-xl [&_h2]:text-lg [&_h3]:text-base [&_h1]:font-bold [&_h2]:font-semibold [&_h3]:font-semibold [&_ul]:pl-5 [&_ol]:pl-5 [&_li]:my-1 [&_strong]:font-semibold [&_strong]:text-amber-700 dark:[&_strong]:text-amber-200 [&_code]:rounded [&_code]:bg-neutral-100 dark:[&_code]:bg-white/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-amber-800 dark:[&_code]:text-amber-300 [&_pre]:rounded-xl [&_pre]:bg-neutral-900 dark:[&_pre]:bg-black/50 [&_pre]:text-white [&_pre]:p-4 [&_blockquote]:border-l-2 [&_blockquote]:border-amber-500 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-neutral-600 dark:[&_blockquote]:text-white/70">
               <ReactMarkdown>{message.content}</ReactMarkdown>
             </div>
           </div>
-
-          {/* Footer Actions */}
           <div className="mt-2 flex items-center gap-4 text-xs text-neutral-500 dark:text-white/50">
             <span>{formatTime(message.createdAt)}</span>
             <button

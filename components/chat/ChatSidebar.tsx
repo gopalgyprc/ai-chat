@@ -142,10 +142,8 @@ export function ChatSidebar({
 
   return (
     <aside className="relative flex h-screen w-[270px] shrink-0 flex-col justify-between border-r border-neutral-200 bg-[#f0f1f3] text-neutral-900 transition-colors duration-200 dark:border-white/10 dark:bg-[#121214] dark:text-white">
-      {/* Top Header Actions */}
       <div className="p-3 pb-2 border-b border-neutral-200 dark:border-white/5">
         <div className="flex items-center justify-between gap-2">
-          {/* Gold Sparkle Logo Button */}
           <button
             onClick={onNewChat}
             className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#fbbf24] text-black shadow-md shadow-amber-500/20 transition-transform hover:scale-105 cursor-pointer"
@@ -153,8 +151,6 @@ export function ChatSidebar({
           >
             <Sparkle className="size-5 fill-black text-black" />
           </button>
-
-          {/* Plus Button: + ... */}
           <button
             onClick={onNewChat}
             className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl border border-neutral-300 bg-white px-3 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-200 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 cursor-pointer"
@@ -163,8 +159,6 @@ export function ChatSidebar({
             <Plus className="size-4" />
             <span className="tracking-widest font-semibold">...</span>
           </button>
-
-          {/* Collapse Button: < */}
           <button
             onClick={onToggleCollapse}
             aria-label="Collapse sidebar"
@@ -175,8 +169,6 @@ export function ChatSidebar({
           </button>
         </div>
       </div>
-
-      {/* Grouped Conversation History */}
       <div className="flex-1 overflow-y-auto px-2.5 py-3 custom-scrollbar">
         {renderGroup('Previous 30 Days', grouped.previous30Days)}
         {renderGroup('July', grouped.july)}
@@ -191,8 +183,6 @@ export function ChatSidebar({
           </div>
         )}
       </div>
-
-      {/* Bottom Footer: User Profile */}
       <div className="border-t border-neutral-200 p-3 dark:border-white/10 bg-[#f0f1f3] dark:bg-[#121214]">
         <div className="relative">
           <div
@@ -210,8 +200,6 @@ export function ChatSidebar({
             </div>
             <MoreVertical className="size-4 text-neutral-500 dark:text-white/50 hover:text-neutral-900 dark:hover:text-white" />
           </div>
-
-          {/* User Popover Menu */}
           {showUserMenu && (
             <div className="absolute bottom-14 left-0 right-0 z-50 rounded-xl border border-neutral-200 bg-white p-2.5 shadow-2xl backdrop-blur-xl dark:border-white/15 dark:bg-[#1a1a1d]">
               <div className="border-b border-neutral-200 px-3 py-2 dark:border-white/10">

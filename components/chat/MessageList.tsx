@@ -25,8 +25,6 @@ export function MessageList({
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
   }, [messages.length, isGenerating])
-
-  // Find last assistant message and last user message for follow-up suggestions
   const lastMessage = messages[messages.length - 1]
   const isLastAssistant = lastMessage?.role === 'assistant'
   const lastUserMessage = [...messages].reverse().find((m) => m.role === 'user')
@@ -37,7 +35,6 @@ export function MessageList({
       : []
 
   const handleCleanQuestionSelect = (q: string) => {
-    // Strip leading emoji if any
     const cleanText = q.replace(/^[\p{Emoji}\p{Extended_Pictographic}\u200d\s]+/u, '').trim()
     if (onSelectSuggestion) {
       onSelectSuggestion(cleanText || q)
@@ -51,8 +48,6 @@ export function MessageList({
       ))}
 
       {isGenerating && <TypingIndicator />}
-
-      {/* Suggested Follow-up Questions Chips */}
       {suggestions.length > 0 && (
         <SuggestedQuestions
           questions={suggestions}

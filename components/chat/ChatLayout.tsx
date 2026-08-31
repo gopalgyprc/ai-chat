@@ -35,7 +35,6 @@ export function ChatLayout({
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#f8f9fa] text-neutral-900 transition-colors duration-200 dark:bg-[#131314] dark:text-white">
-      {/* Desktop Sidebar */}
       <div className="hidden md:flex shrink-0">
         <ChatSidebar
           conversations={conversations}
@@ -56,8 +55,6 @@ export function ChatLayout({
           onSignOut={onSignOut}
         />
       </div>
-
-      {/* Mobile Drawer Sidebar */}
       {isMobileSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div
@@ -93,8 +90,6 @@ export function ChatLayout({
           </div>
         </div>
       )}
-
-      {/* Main Workspace Area */}
       <div className="flex flex-1 flex-col overflow-hidden">
         <ChatHeader
           title={activeConversation?.title || 'Ai Chat'}

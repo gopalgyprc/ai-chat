@@ -50,11 +50,9 @@ export default function LoginPage() {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f8f9fa] text-neutral-900 transition-colors duration-200 dark:bg-[#0a0a0c] dark:text-white p-5">
-      {/* Background ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[550px] w-[550px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(246,110,70,0.2)_0%,rgba(251,191,36,0.12)_40%,transparent_70%)] blur-3xl dark:bg-[radial-gradient(ellipse_at_center,rgba(246,71,31,0.25)_0%,rgba(245,158,11,0.15)_40%,transparent_70%)]" />
 
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-neutral-200 bg-white/90 p-8 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-[#161619]/90">
-        {/* Top Actions: Back Link & ThemeToggle */}
         <div className="mb-6 flex items-center justify-between">
           <Link
             href="/"
@@ -64,8 +62,6 @@ export default function LoginPage() {
           </Link>
           <ThemeToggle variant="icon" />
         </div>
-
-        {/* Brand Header */}
         <div className="mb-8 text-center">
           <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 shadow-lg shadow-orange-500/30">
             <Sparkles className="size-6 text-white" />
@@ -81,8 +77,6 @@ export default function LoginPage() {
             {errorMsg}
           </div>
         )}
-
-        {/* Google Sign In Button */}
         <div className="space-y-3">
           <button
             onClick={handleGoogleLogin}
@@ -109,8 +103,6 @@ export default function LoginPage() {
             </svg>
             {isSigningIn ? 'Signing in...' : 'Continue with Google'}
           </button>
-
-          {/* Quick Demo Login Button */}
           <button
             onClick={handleDemoLogin}
             disabled={isSigningIn}
@@ -120,8 +112,6 @@ export default function LoginPage() {
             Quick Demo Login (Alex Rivera)
           </button>
         </div>
-
-        {/* Security / Privacy Trust Badge */}
         <div className="mt-8 flex items-center justify-center gap-2 text-[11px] text-neutral-400 dark:text-white/40">
           <ShieldCheck className="size-3.5 text-emerald-500 dark:text-emerald-400" />
           <span>Encrypted connection & secure Firebase authentication</span>

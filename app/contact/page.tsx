@@ -53,13 +53,10 @@ export default function ContactPage() {
 
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-[#f8f9fa] text-neutral-900 transition-colors duration-200 dark:bg-[#050505] dark:text-white flex flex-col justify-between">
-      {/* Background ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-[200px] h-[600px] w-full max-w-[1200px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(246,110,70,0.2)_0%,rgba(251,191,36,0.1)_40%,transparent_70%)] blur-3xl dark:bg-[radial-gradient(ellipse_at_center,rgba(246,71,31,0.45)_0%,rgba(204,48,20,0.18)_40%,transparent_70%)]" />
 
       <Header />
-
       <main className="relative z-10 mx-auto w-full max-w-6xl px-6 py-16 sm:px-12 sm:py-24 flex-1">
-        {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
             <Mail className="size-3.5 text-amber-500 dark:text-amber-400" />
@@ -77,11 +74,10 @@ export default function ContactPage() {
         </div>
 
         <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12">
-          {/* Contact Information & Channels (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             <div className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-[#141416]">
               <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-6">Direct Channels</h3>
-              
+
               <div className="space-y-6 text-sm">
                 <div className="flex items-start gap-4">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
@@ -115,15 +111,11 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-
-            {/* Quick response badge */}
             <div className="rounded-2xl border border-neutral-200 bg-neutral-100/70 p-5 text-xs text-neutral-600 dark:border-white/5 dark:bg-[#111113] dark:text-white/70 flex items-center gap-3">
               <Clock className="size-4 text-amber-500 shrink-0" />
               <span>Our team is active Monday–Friday, 9 AM – 6 PM PST.</span>
             </div>
           </div>
-
-          {/* Interactive Form (7 cols) */}
           <div className="lg:col-span-7">
             <div className="rounded-3xl border border-neutral-200 bg-white p-8 sm:p-10 shadow-lg dark:border-white/10 dark:bg-[#141416]">
               {submitted ? (
@@ -148,7 +140,7 @@ export default function ContactPage() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Send us a Message</h3>
-                  
+
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
                       <label className="block text-xs font-semibold text-neutral-700 dark:text-white/80 mb-1.5">
@@ -221,8 +213,6 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-
-        {/* FAQ Accordion Section */}
         <div className="mt-24 max-w-3xl mx-auto">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white">
@@ -247,9 +237,8 @@ export default function ContactPage() {
                   >
                     <span>{faq.q}</span>
                     <ChevronDown
-                      className={`size-4 text-neutral-500 transition-transform duration-200 ${
-                        isOpen ? 'rotate-180 text-amber-500' : ''
-                      }`}
+                      className={`size-4 text-neutral-500 transition-transform duration-200 ${isOpen ? 'rotate-180 text-amber-500' : ''
+                        }`}
                     />
                   </button>
                   {isOpen && (

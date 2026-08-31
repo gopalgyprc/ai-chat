@@ -101,13 +101,9 @@ export default function BlogPage() {
 
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-[#f8f9fa] text-neutral-900 transition-colors duration-200 dark:bg-[#050505] dark:text-white flex flex-col justify-between">
-      {/* Background ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-[220px] h-[600px] w-full max-w-[1200px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(246,110,70,0.2)_0%,rgba(251,191,36,0.1)_40%,transparent_70%)] blur-3xl dark:bg-[radial-gradient(ellipse_at_center,rgba(246,71,31,0.45)_0%,rgba(204,48,20,0.18)_40%,transparent_70%)]" />
-
       <Header />
-
       <main className="relative z-10 mx-auto w-full max-w-6xl px-6 py-16 sm:px-12 sm:py-24 flex-1">
-        {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
             <BookOpen className="size-3.5 text-amber-500 dark:text-amber-400" />
@@ -123,8 +119,6 @@ export default function BlogPage() {
             Deep dives into artificial intelligence, software architecture, UI design, and generative workflows.
           </p>
         </div>
-
-        {/* Featured Article Card */}
         {featuredArticle && selectedCategory === 'All' && !searchQuery && (
           <div className="mt-14 rounded-3xl border border-neutral-200 bg-white p-8 sm:p-10 shadow-lg dark:border-white/10 dark:bg-[#141416] transition-all hover:border-amber-500/50">
             <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-500 dark:text-white/50 mb-3">
@@ -158,27 +152,21 @@ export default function BlogPage() {
             </div>
           </div>
         )}
-
-        {/* Filter and Search Bar */}
         <div className="mt-14 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-neutral-200 dark:border-white/10 pb-6">
-          {/* Category Chips */}
           <div className="flex flex-wrap items-center gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all cursor-pointer ${
-                  selectedCategory === cat
-                    ? 'bg-neutral-900 text-white dark:bg-white dark:text-black shadow-sm font-semibold'
-                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-white/5 dark:text-white/70 dark:hover:bg-white/10'
-                }`}
+                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all cursor-pointer ${selectedCategory === cat
+                  ? 'bg-neutral-900 text-white dark:bg-white dark:text-black shadow-sm font-semibold'
+                  : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-white/5 dark:text-white/70 dark:hover:bg-white/10'
+                  }`}
               >
                 {cat}
               </button>
             ))}
           </div>
-
-          {/* Search Input */}
           <div className="flex w-full sm:w-64 items-center gap-2.5 rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs text-neutral-800 shadow-sm dark:border-white/10 dark:bg-[#141416] dark:text-white">
             <Search className="size-3.5 text-neutral-400 dark:text-white/50" />
             <input
@@ -190,8 +178,6 @@ export default function BlogPage() {
             />
           </div>
         </div>
-
-        {/* Articles Grid */}
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredArticles.map((art) => (
             <article

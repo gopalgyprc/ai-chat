@@ -1,10 +1,10 @@
 /**
- * Smart contextual follow-up question generator
+ * University and Academic contextual follow-up question generator
  */
 export function getSuggestedQuestions(userMessage?: string, assistantMessage?: string): string[] {
   const combined = `${userMessage || ''} ${assistantMessage || ''}`.toLowerCase()
 
-  // 1. Greetings / Introduction
+  // 1. Greetings / Welcome / General Questions
   if (
     combined.includes('hello') ||
     combined.includes('hi there') ||
@@ -13,15 +13,15 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     (userMessage && userMessage.trim().length <= 4)
   ) {
     return [
-      '✨ What are the most powerful capabilities of Alchat?',
-      '💻 Help me write a Next.js 16 component with TypeScript',
-      '🚀 Give me 5 high-growth online startup ideas for 2026',
-      '🔬 Explain quantum computing like I am 12 years old',
-      '✍️ Draft a professional follow-up email after an interview',
+      '🎓 What are the best final year project ideas in Computer Science & AI?',
+      '📚 How can I structure an academic research paper in IEEE format?',
+      '📝 Create a 7-day study timetable for semester final exams',
+      '💼 Draft an ATS-friendly student resume for campus placements & internships',
+      '🧪 Help me write a professional engineering lab report conclusion',
     ]
   }
 
-  // 2. Coding / Software Engineering / Tech
+  // 2. Programming, Coding, Software Engineering & Project Implementation
   if (
     combined.includes('code') ||
     combined.includes('function') ||
@@ -32,87 +32,109 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     combined.includes('api') ||
     combined.includes('bug') ||
     combined.includes('database') ||
-    combined.includes('css') ||
-    combined.includes('html') ||
-    combined.includes('sql')
+    combined.includes('sql') ||
+    combined.includes('algorithm') ||
+    combined.includes('project') ||
+    combined.includes('data structure')
   ) {
     return [
-      '🔍 Can you optimize this code for maximum performance and readability?',
-      '🧪 Write comprehensive unit tests with edge case handling for this',
-      '🛡️ What security vulnerabilities or error cases should I protect against?',
-      '📝 Can you explain how this works step-by-step with comments?',
-      '⚡ How can I refactor this using modern asynchronous best practices?',
+      '📊 How do I design the system architecture diagram and ERD for this project?',
+      '🧪 What are the most common technical viva / presentation questions for this code?',
+      '📝 Can you write comprehensive step-by-step comments explaining this for my project report?',
+      '⚡ What are the time and space complexities (Big-O) of this implementation?',
+      '🛡️ How can I add robust error handling and input validation for the project demo?',
     ]
   }
 
-  // 3. Leaders / Politics / Geography / History / Facts
+  // 3. Research, Thesis, Literature Review, Citations & Academic Writing
   if (
-    combined.includes('pm') ||
-    combined.includes('prime minister') ||
-    combined.includes('president') ||
-    combined.includes('india') ||
-    combined.includes('country') ||
-    combined.includes('history') ||
-    combined.includes('war') ||
-    combined.includes('constitution') ||
-    combined.includes('election')
+    combined.includes('research') ||
+    combined.includes('paper') ||
+    combined.includes('thesis') ||
+    combined.includes('citation') ||
+    combined.includes('apa') ||
+    combined.includes('ieee') ||
+    combined.includes('literature') ||
+    combined.includes('abstract') ||
+    combined.includes('plagiarism') ||
+    combined.includes('methodology')
   ) {
     return [
-      '📜 What are the most significant policy achievements during this tenure?',
-      '🌐 How did this impact global foreign relations and trade agreements?',
-      '📊 What were the major economic reforms and infrastructure milestones?',
-      '⏳ What were the key challenges and turning points in this era?',
-      '📚 Can you provide a chronological timeline of the most critical events?',
+      '📖 How do I properly format in-text citations and bibliography in APA 7th / IEEE style?',
+      '🔍 Can you help me formulate a strong research hypothesis and problem statement?',
+      '📊 How do I synthesize findings in the literature review without plagiarism?',
+      '📑 What should be included in the project abstract and future scope section?',
+      '🎯 Help me prepare 5 challenging defense questions a professor or examiner might ask',
     ]
   }
 
-  // 4. Business / Career / Marketing / Finance
+  // 4. Mathematics, Physics, Engineering Sciences & Problem Solving
   if (
-    combined.includes('business') ||
-    combined.includes('startup') ||
-    combined.includes('marketing') ||
-    combined.includes('money') ||
-    combined.includes('invest') ||
+    combined.includes('math') ||
+    combined.includes('physics') ||
+    combined.includes('matrix') ||
+    combined.includes('calculus') ||
+    combined.includes('derivative') ||
+    combined.includes('integral') ||
+    combined.includes('equation') ||
+    combined.includes('circuit') ||
+    combined.includes('formula')
+  ) {
+    return [
+      '📐 Can you solve this step-by-step showing all intermediate formulas and units?',
+      '🔬 What is the practical engineering application of this mathematical concept?',
+      '📈 How do I interpret and plot the experimental data results in my lab report?',
+      '💡 Explain the fundamental underlying theorem and boundary conditions clearly',
+      '📝 Provide a practice examination problem on this topic with detailed solution key',
+    ]
+  }
+
+  // 5. Exam Preparation, Revision & Study Techniques
+  if (
+    combined.includes('exam') ||
+    combined.includes('study') ||
+    combined.includes('test') ||
+    combined.includes('quiz') ||
+    combined.includes('revision') ||
+    combined.includes('semester') ||
+    combined.includes('grade') ||
+    combined.includes('gpa')
+  ) {
+    return [
+      '⏰ Create an active recall practice quiz with 5 questions on this topic',
+      '🧠 Explain this concept using a simple real-world analogy for fast exam revision',
+      '📋 Provide a high-yield summary cheat-sheet of key definitions and formulas',
+      '🎯 What are the most frequently asked university examination questions on this subject?',
+      '💡 How can I memorize these key points using an effective mnemonic technique?',
+    ]
+  }
+
+  // 6. Campus Placement, Career, Internships & Professor Communications
+  if (
     combined.includes('career') ||
-    combined.includes('growth') ||
-    combined.includes('revenue') ||
-    combined.includes('budget')
+    combined.includes('interview') ||
+    combined.includes('resume') ||
+    combined.includes('internship') ||
+    combined.includes('placement') ||
+    combined.includes('job') ||
+    combined.includes('email') ||
+    combined.includes('professor')
   ) {
     return [
-      '📈 What is the most effective go-to-market strategy for this concept?',
-      '💰 How can I estimate the startup costs and break-even timeline?',
-      '🎯 How do I define the ideal customer persona and value proposition?',
-      '⚖️ What are the top 3 risks in this space and how can I mitigate them?',
-      '🚀 Outline a practical 30-day step-by-step execution roadmap',
+      '💼 What are the top technical interview questions asked for this role in campus hiring?',
+      '✉️ Draft a polite formal email to a professor requesting project guidance or LOR',
+      '🎯 How should I describe this university project on my LinkedIn and resume?',
+      '🚀 What key skills and certifications should I learn alongside my university degree?',
+      '💡 Provide a framework to answer: "Walk me through your final year project"',
     ]
   }
 
-  // 5. Creative Writing / Storytelling / Philosophy / Music / Art
-  if (
-    combined.includes('story') ||
-    combined.includes('write') ||
-    combined.includes('poem') ||
-    combined.includes('philosophy') ||
-    combined.includes('album') ||
-    combined.includes('music') ||
-    combined.includes('art') ||
-    combined.includes('character')
-  ) {
-    return [
-      '🎨 Can you provide 3 contrasting creative variations of this theme?',
-      '📖 Expand this scene with vivid sensory details and natural dialogue',
-      '💡 What is an unexpected narrative plot twist we could introduce?',
-      '🎭 How can we explore the philosophical implications of this idea further?',
-      '🎬 Describe the visual lighting, camera angles, and atmosphere for this scene',
-    ]
-  }
-
-  // 6. General / Contextual Deep Dive
+  // 7. General Academic Deep-Dive Fallback
   return [
-    '💡 Can you illustrate this with a practical real-world case study?',
-    '🔍 What are the key advantages and drawbacks I should be aware of?',
-    '🚀 What actionable steps should I take next to implement this?',
-    '❓ What are the most common misconceptions or mistakes to avoid?',
-    '📋 Can you summarize the core takeaways as a quick reference checklist?',
+    '🎓 How can I apply this concept in a university academic project or coursework?',
+    '💡 Can you break this down step-by-step with practical examples for student learning?',
+    '📚 What are the standard university textbook references for further reading on this?',
+    '❓ What are the most common student mistakes or misconceptions on this topic?',
+    '📋 Can you summarize this as bullet points suitable for lecture revision notes?',
   ]
 }

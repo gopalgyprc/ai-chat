@@ -3,7 +3,6 @@ import { Sparkles } from 'lucide-react'
 export function TypingIndicator() {
   return (
     <div className="flex items-start gap-3.5 py-4">
-      {/* AI Avatar */}
       <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-black shadow-md shadow-amber-500/20 mt-1">
         <Sparkles className="size-4 text-white" />
       </div>

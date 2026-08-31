@@ -61,7 +61,6 @@ export function Testimonials() {
 
   return (
     <section className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 sm:px-12 sm:py-28">
-      {/* Header */}
       <div className="text-center max-w-3xl mx-auto">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-xs backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
           <Sparkles className="size-3.5 text-amber-500 dark:text-amber-400" />
@@ -77,8 +76,6 @@ export function Testimonials() {
           See why thousands of developers and teams rely on Alchat every single day.
         </p>
       </div>
-
-      {/* Testimonials Grid */}
       <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {reviews.map((r) => (
           <div
@@ -86,20 +83,15 @@ export function Testimonials() {
             className="flex flex-col justify-between rounded-3xl border border-neutral-200 bg-white/80 p-8 shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/50 hover:shadow-xl dark:border-white/10 dark:bg-[#141416]/80"
           >
             <div>
-              {/* Stars */}
               <div className="flex items-center gap-1 text-amber-400 mb-4">
                 {[...Array(r.rating)].map((_, i) => (
                   <Star key={i} className="size-4 fill-amber-400" />
                 ))}
               </div>
-
-              {/* Quote text */}
               <p className="text-sm text-neutral-700 dark:text-white/80 leading-relaxed italic">
                 &ldquo;{r.comment}&rdquo;
               </p>
             </div>
-
-            {/* Author details */}
             <div className="mt-8 flex items-center gap-3.5 border-t border-neutral-100 dark:border-white/5 pt-4">
               <div
                 className={`flex size-10 items-center justify-center rounded-full bg-gradient-to-tr ${r.color} text-xs font-bold text-white shadow-md`}

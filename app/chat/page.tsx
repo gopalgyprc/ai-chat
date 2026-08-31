@@ -29,15 +29,11 @@ export default function ChatPage() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [streamingContent, setStreamingContent] = useState<string>('')
   const [prefilledInput, setPrefilledInput] = useState<string>('')
-
-  // Route protection
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login')
     }
   }, [user, loading, router])
-
-  // Subscribe to user conversations
   useEffect(() => {
     if (!user) return
     const unsubscribe = subscribeToUserConversations(user.uid, (convList) => {
@@ -45,8 +41,6 @@ export default function ChatPage() {
     })
     return () => unsubscribe()
   }, [user])
-
-  // Subscribe to active conversation messages
   useEffect(() => {
     if (!user || !activeConversation) {
       setMessages([])
@@ -90,16 +84,12 @@ export default function ChatPage() {
     if (!user || !text.trim() || isGenerating) return
 
     let currentConv = activeConversation
-
-    // If starting a fresh chat, create the conversation document
     if (!currentConv) {
       const generatedTitle =
         text.length > 32 ? text.substring(0, 32).trim() + '...' : text.trim()
       currentConv = await createConversation(user.uid, generatedTitle)
       setActiveConversation(currentConv)
     }
-
-    // 1. Optimistically append user message to UI state immediately
     const userMsg: ChatMessage = {
       id: 'msg_temp_' + Date.now(),
       role: 'user',
@@ -110,13 +100,11 @@ export default function ChatPage() {
     setIsGenerating(true)
     setStreamingContent('')
 
-    // Save to Firestore in background
     addMessage(user.uid, currentConv.id, {
       role: 'user',
       content: text,
     }).catch((e) => console.warn('Sync user message notice:', e))
 
-    // Prepare message history for Gemini AI context
     const historyPayload = messages.map((m) => ({
       role: m.role,
       content: m.content,
@@ -167,7 +155,6 @@ export default function ChatPage() {
         }
       }
 
-      // 2. Commit completed assistant response
       const finalText = accumulated.trim() || 'I am ready to assist you. How can I help next?'
       const assistantMsg = await addMessage(user.uid, currentConv.id, {
         role: 'assistant',
@@ -205,8 +192,6 @@ export default function ChatPage() {
   }
 
   if (!user) return null
-
-  // Compose active messages with live streaming message
   const displayMessages: ChatMessage[] = [...messages]
   if (isGenerating && streamingContent) {
     displayMessages.push({
@@ -229,7 +214,6 @@ export default function ChatPage() {
       onSignOut={signOut}
     >
       <div className="flex min-h-full flex-col justify-between">
-        {/* Main Content: Welcome 3-column view or Message Stream */}
         <div className="flex-1">
           {displayMessages.length === 0 && !isGenerating ? (
             <ChatWelcome onSelectPrompt={handleSelectPrompt} />
@@ -242,8 +226,6 @@ export default function ChatPage() {
             />
           )}
         </div>
-
-        {/* Sticky Prompt Input at the bottom with theme-aware gradient fade */}
         <div className="sticky bottom-0 z-20 bg-gradient-to-t from-[#f8f9fa] via-[#f8f9fa]/95 to-transparent pt-4 dark:from-[#131314] dark:via-[#131314]/95 dark:to-transparent transition-colors duration-200">
           <ChatInput
             onSendMessage={handleSendMessage}

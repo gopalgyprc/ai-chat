@@ -16,7 +16,6 @@ import { ChatMessage, MessageRole } from '@/types/chat'
 const LOCAL_STORAGE_CONVERSATIONS_KEY = 'alchat_conversations_v1'
 const LOCAL_STORAGE_MESSAGES_KEY_PREFIX = 'alchat_messages_v1_'
 
-// Seed default history matching the screenshot
 const DEFAULT_SEED_CONVERSATIONS: Conversation[] = [
   {
     id: 'conv-july-1',
@@ -142,11 +141,9 @@ export async function createConversation(
     updatedAt: Date.now(),
   }
 
-  // 1. Immediately persist locally
   const local = getLocalConversations(userId)
   saveLocalConversations(userId, [newConv, ...local])
 
-  // 2. Asynchronously sync to Firestore without blocking the UI
   if (isFirebaseConfigured) {
     try {
       const convRef = doc(db, 'users', userId, 'conversations', convId)
@@ -169,12 +166,11 @@ export function subscribeToUserConversations(
   userId: string,
   callback: (conversations: Conversation[]) => void
 ): () => void {
-  // Immediately dispatch current local conversations
   const initial = getLocalConversations(userId)
   callback(initial)
 
   if (!isFirebaseConfigured) {
-    return () => {}
+    return () => { }
   }
 
   try {
@@ -206,7 +202,7 @@ export function subscribeToUserConversations(
     )
   } catch (err: any) {
     console.warn('Firestore fallback on conversation subscribe:', err?.message)
-    return () => {}
+    return () => { }
   }
 }
 
@@ -223,11 +219,9 @@ export async function addMessage(
     createdAt: Date.now(),
   }
 
-  // 1. Immediately persist message to local storage
   const msgs = getLocalMessages(conversationId)
   saveLocalMessages(conversationId, [...msgs, fullMessage])
 
-  // 2. Immediately update local conversation preview & timestamp
   const convs = getLocalConversations(userId)
   const updatedConvs = convs.map((c) =>
     c.id === conversationId
@@ -236,7 +230,6 @@ export async function addMessage(
   )
   saveLocalConversations(userId, updatedConvs)
 
-  // 3. Asynchronously sync to Firestore without blocking the UI
   if (isFirebaseConfigured) {
     try {
       const msgRef = doc(db, 'users', userId, 'conversations', conversationId, 'messages', msgId)
@@ -252,7 +245,7 @@ export async function addMessage(
       updateDoc(convRef, {
         updatedAt: serverTimestamp(),
         lastMessage: message.content.substring(0, 80),
-      }).catch(() => {})
+      }).catch(() => { })
     } catch (e: any) {
       console.warn('Firestore addMessage notice:', e?.message)
     }
@@ -268,15 +261,14 @@ export function subscribeToMessages(
 ): () => void {
   if (!conversationId) {
     callback([])
-    return () => {}
+    return () => { }
   }
 
-  // Immediately dispatch current local messages to the UI (0ms latency)
   const localMsgs = getLocalMessages(conversationId)
   callback(localMsgs)
 
   if (!isFirebaseConfigured) {
-    return () => {}
+    return () => { }
   }
 
   try {
@@ -306,19 +298,18 @@ export function subscribeToMessages(
     )
   } catch (err: any) {
     console.warn('Firestore subscribeToMessages notice:', err?.message)
-    return () => {}
+    return () => { }
   }
 }
 
 export async function deleteConversation(userId: string, conversationId: string): Promise<void> {
-  // 1. Immediately delete locally
+
   const convs = getLocalConversations(userId).filter((c) => c.id !== conversationId)
   saveLocalConversations(userId, convs)
   if (typeof window !== 'undefined') {
     localStorage.removeItem(`${LOCAL_STORAGE_MESSAGES_KEY_PREFIX}${conversationId}`)
   }
 
-  // 2. Asynchronously delete from Firestore
   if (isFirebaseConfigured) {
     try {
       const convRef = doc(db, 'users', userId, 'conversations', conversationId)
@@ -347,21 +338,14 @@ export async function updateConversationTitle(
       updateDoc(convRef, {
         title,
         updatedAt: serverTimestamp(),
-      }).catch(() => {})
+      }).catch(() => { })
     } catch (e: any) {
       console.warn('Firestore updateConversationTitle notice:', e?.message)
     }
   }
 }
 
-/**
- * Group conversations according to screenshot layout:
- * - Previous 30 Days
- * - July
- * - June
- * - May
- * - Earlier
- */
+
 export function groupConversations(conversations: Conversation[]): GroupedConversations {
   const grouped: GroupedConversations = {
     previous30Days: [],

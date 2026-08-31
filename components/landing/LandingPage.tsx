@@ -12,34 +12,15 @@ import { Footer } from '@/components/landing/Footer'
 export function LandingPage() {
   return (
     <main className="min-h-screen w-full bg-white text-neutral-900 transition-colors duration-200 dark:bg-[#09090b] dark:text-neutral-100 flex flex-col justify-between">
-      {/* Top Navbar */}
       <Header />
-
-      {/* Hero Section */}
       <Hero />
-
-      {/* Product Preview Mockup */}
       <ProductPreview />
-
-      {/* Meaningful, Real Features Grid */}
       <Features />
-
-      {/* Interactive Prompt & Response Playground */}
       <PromptShowcase />
-
-      {/* 3-Step Simple How It Works */}
       <HowItWorks />
-
-      {/* Why AIchat Value Breakdown */}
       <WhyAIchat />
-
-      {/* Straightforward FAQ Section */}
       <FaqSection />
-
-      {/* Final Call to Action */}
       <FinalCta />
-
-      {/* Footer */}
       <Footer />
     </main>
   )
