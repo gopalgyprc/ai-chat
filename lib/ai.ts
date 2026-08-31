@@ -16,9 +16,7 @@ export interface StreamCallbacks {
   onError: (error: Error) => void
 }
 
-/**
- * Generate AI Response stream using Google Gemini API with GoogleGenAI SDK
- */
+
 export async function streamGeminiChat(
   message: string,
   history: MessageInput[] = [],
@@ -51,7 +49,7 @@ export async function streamGeminiChat(
     return
   }
 
-  // Active production models for Google AI Studio API v1beta
+
   const candidateModels = [
     'gemini-3.6-flash',
     'gemini-3.5-flash',
@@ -98,7 +96,7 @@ export async function streamGeminiChat(
 
         if (fullText.trim()) {
           callbacks.onDone(fullText)
-          return // Successfully streamed response!
+          return
         }
       } catch (modelErr: any) {
         lastError = modelErr
@@ -110,7 +108,7 @@ export async function streamGeminiChat(
     console.error('Google GenAI client initialization error:', err)
   }
 
-  // If live models failed, stream informative university assistant guidance
+
   const fallbackAnswer =
     `I received your query: **"${message}"**.\n\n` +
     `Here is a structured academic breakdown to help you with your coursework/project:\n\n` +

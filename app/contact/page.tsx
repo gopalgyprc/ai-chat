@@ -54,7 +54,6 @@ export default function ContactPage() {
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-[#f8f9fa] text-neutral-900 transition-colors duration-200 dark:bg-[#050505] dark:text-white flex flex-col justify-between">
       <div className="pointer-events-none absolute left-1/2 top-[200px] h-[600px] w-full max-w-[1200px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(246,110,70,0.2)_0%,rgba(251,191,36,0.1)_40%,transparent_70%)] blur-3xl dark:bg-[radial-gradient(ellipse_at_center,rgba(246,71,31,0.45)_0%,rgba(204,48,20,0.18)_40%,transparent_70%)]" />
-
       <Header />
       <main className="relative z-10 mx-auto w-full max-w-6xl px-6 py-16 sm:px-12 sm:py-24 flex-1">
         <div className="text-center max-w-3xl mx-auto">
@@ -72,12 +71,10 @@ export default function ContactPage() {
             Have questions about Alchat, API integrations, enterprise solutions, or feedback? Send us a message!
           </p>
         </div>
-
         <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5 space-y-6">
             <div className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-[#141416]">
               <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-6">Direct Channels</h3>
-
               <div className="space-y-6 text-sm">
                 <div className="flex items-start gap-4">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
@@ -89,7 +86,6 @@ export default function ContactPage() {
                     <p className="text-xs text-neutral-400 dark:text-white/40 mt-1">Replies within 12 hours</p>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-4">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400">
                     <MessageSquare className="size-5" />
@@ -99,7 +95,6 @@ export default function ContactPage() {
                     <p className="text-xs text-neutral-500 dark:text-white/60 mt-0.5">Available 24/7 inside the workspace</p>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-4">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                     <MapPin className="size-5" />

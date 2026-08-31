@@ -361,7 +361,7 @@ export function groupConversations(conversations: Conversation[]): GroupedConver
   conversations.forEach((conv) => {
     const age = now - conv.createdAt
     const date = new Date(conv.createdAt)
-    const month = date.getMonth() // 0 = Jan, 4 = May, 5 = June, 6 = July
+    const month = date.getMonth()
 
     if (age <= thirtyDaysMs && conv.id.startsWith('conv_')) {
       grouped.previous30Days.push(conv)

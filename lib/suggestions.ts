@@ -1,10 +1,7 @@
-/**
- * University and Academic contextual follow-up question generator
- */
+
 export function getSuggestedQuestions(userMessage?: string, assistantMessage?: string): string[] {
   const combined = `${userMessage || ''} ${assistantMessage || ''}`.toLowerCase()
 
-  // 1. Greetings / Welcome / General Questions
   if (
     combined.includes('hello') ||
     combined.includes('hi there') ||
@@ -21,7 +18,7 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     ]
   }
 
-  // 2. Programming, Coding, Software Engineering & Project Implementation
+
   if (
     combined.includes('code') ||
     combined.includes('function') ||
@@ -46,7 +43,6 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     ]
   }
 
-  // 3. Research, Thesis, Literature Review, Citations & Academic Writing
   if (
     combined.includes('research') ||
     combined.includes('paper') ||
@@ -68,7 +64,7 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     ]
   }
 
-  // 4. Mathematics, Physics, Engineering Sciences & Problem Solving
+
   if (
     combined.includes('math') ||
     combined.includes('physics') ||
@@ -89,7 +85,7 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     ]
   }
 
-  // 5. Exam Preparation, Revision & Study Techniques
+
   if (
     combined.includes('exam') ||
     combined.includes('study') ||
@@ -109,7 +105,7 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     ]
   }
 
-  // 6. Campus Placement, Career, Internships & Professor Communications
+
   if (
     combined.includes('career') ||
     combined.includes('interview') ||
@@ -129,7 +125,6 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     ]
   }
 
-  // 7. General Academic Deep-Dive Fallback
   return [
     '🎓 How can I apply this concept in a university academic project or coursework?',
     '💡 Can you break this down step-by-step with practical examples for student learning?',
