@@ -1,38 +1,42 @@
 import React from 'react'
-import { Check } from 'lucide-react'
+import { Check, Building2 } from 'lucide-react'
 
 export function WhyAIchat() {
   const points = [
     {
-      title: 'Distraction-free focus',
+      title: '100% Grounded in Official Indiana Tech Info',
       description:
-        'A clean interface with comfortable typography and spacing. No popups, no promotional sidebars, no clutter.',
+        'All answers are strictly scoped to official university resources on indianatech.edu to guarantee reliable, hallucination-free guidance.',
     },
     {
-      title: 'Reliable local-first storage',
+      title: '24/7 International & Admissions Support',
       description:
-        'Everything is stored instantly on your device, then backed up to your account. Your history stays intact even on spotty connections.',
+        'Get immediate guidance on English proficiency requirements (TOEFL/IELTS), Form I-20 visa steps, and financial guarantees anytime.',
     },
     {
-      title: 'Smart follow-up suggestions',
+      title: 'Explore Degrees & Scholarship Tiers',
       description:
-        'Helpful contextual questions appear after each answer, letting you explore topics deeper with a single click.',
+        'Easily discover undergraduate and graduate programs in engineering, business, cybersecurity, and calculate your merit scholarship eligibility.',
     },
     {
-      title: 'Adaptive dual themes',
+      title: 'Completely Free with Zero Friction',
       description:
-        'Crafted Light and Dark modes designed to be easy on your eyes whether working in bright daylight or late at night.',
+        'Available freely to all prospective students, parents, high school counselors, and alumni without paywalls or credit cards.',
     },
   ]
 
   return (
     <section id="why-aichat" className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-neutral-100 dark:border-neutral-900">
       <div className="max-w-2xl">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400">
+          <Building2 className="size-3.5" />
+          <span>Why Use The Assistant</span>
+        </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
-          Why choose AIchat
+          Why Use the Indiana Tech Virtual Assistant
         </h2>
         <p className="mt-3 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400">
-          A straightforward workspace designed for people who appreciate simplicity and speed.
+          A dedicated, accurate digital guide designed to help you navigate your educational journey at Indiana Tech.
         </p>
       </div>
 
@@ -40,9 +44,9 @@ export function WhyAIchat() {
         {points.map((p) => (
           <div
             key={p.title}
-            className="flex items-start gap-4 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-[#121214] shadow-2xs"
+            className="flex items-start gap-4 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-[#121214] shadow-2xs hover:border-amber-500/40 transition-colors"
           >
-            <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 mt-0.5">
+            <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-amber-500/15 text-amber-600 dark:bg-amber-400/20 dark:text-amber-400 mt-0.5">
               <Check className="size-3.5" />
             </div>
             <div>

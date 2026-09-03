@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Menu, Sparkle, X } from 'lucide-react'
+import { Menu, GraduationCap, X, ExternalLink } from 'lucide-react'
 import { useState } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
@@ -14,21 +14,26 @@ export function Header() {
         {/* Brand Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-bold tracking-tight text-neutral-900 transition-opacity hover:opacity-90 dark:text-white"
+          className="flex items-center gap-2.5 text-base sm:text-lg font-bold tracking-tight text-neutral-900 transition-opacity hover:opacity-90 dark:text-white"
         >
-          <div className="flex size-7 items-center justify-center rounded-lg bg-amber-500 text-black">
-            <Sparkle className="size-4 fill-black" />
+          <div className="flex size-8 items-center justify-center rounded-lg bg-amber-500 text-black shadow-xs">
+            <GraduationCap className="size-5" />
           </div>
-          <span>AIchat</span>
+          <div className="flex flex-col">
+            <span className="leading-tight">Indiana Tech</span>
+            <span className="text-[10px] font-semibold text-amber-600 dark:text-amber-400 tracking-normal">
+              Virtual Assistant
+            </span>
+          </div>
         </Link>
 
         {/* Center Navigation Links */}
-        <nav className="hidden items-center gap-8 text-sm font-medium text-neutral-600 dark:text-white/70 md:flex">
+        <nav className="hidden items-center gap-7 text-sm font-medium text-neutral-600 dark:text-white/70 md:flex">
           <a
             href="#features"
             className="transition-colors hover:text-neutral-900 dark:hover:text-white"
           >
-            Features
+            Academics
           </a>
           <a
             href="#how-it-works"
@@ -37,17 +42,26 @@ export function Header() {
             How it works
           </a>
           <a
-            href="#why-aichat"
+            href="#showcase"
             className="transition-colors hover:text-neutral-900 dark:hover:text-white"
           >
-            Why AIchat
+            Inquiries
           </a>
-          <Link
-            href="/about"
+          <a
+            href="#faq"
             className="transition-colors hover:text-neutral-900 dark:hover:text-white"
           >
-            About
-          </Link>
+            FAQ
+          </a>
+          <a
+            href="https://www.indianatech.edu"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 hover:underline"
+          >
+            <span>indianatech.edu</span>
+            <ExternalLink className="size-3" />
+          </a>
         </nav>
 
         {/* Right Actions */}
@@ -63,9 +77,9 @@ export function Header() {
 
           <Link
             href="/chat"
-            className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 shadow-xs"
+            className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-neutral-800 dark:bg-amber-400 dark:text-black dark:hover:bg-amber-300 shadow-xs"
           >
-            Get started
+            Ask Assistant
           </Link>
         </div>
 
@@ -90,7 +104,7 @@ export function Header() {
             className="block py-1 hover:text-neutral-900 dark:hover:text-white"
             onClick={() => setMenuOpen(false)}
           >
-            Features
+            Academics
           </a>
           <a
             href="#how-it-works"
@@ -100,19 +114,28 @@ export function Header() {
             How it works
           </a>
           <a
-            href="#why-aichat"
+            href="#showcase"
             className="block py-1 hover:text-neutral-900 dark:hover:text-white"
             onClick={() => setMenuOpen(false)}
           >
-            Why AIchat
+            Inquiries
           </a>
-          <Link
-            href="/about"
+          <a
+            href="#faq"
             className="block py-1 hover:text-neutral-900 dark:hover:text-white"
             onClick={() => setMenuOpen(false)}
           >
-            About
-          </Link>
+            FAQ
+          </a>
+          <a
+            href="https://www.indianatech.edu"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1 py-1 text-amber-600 dark:text-amber-400"
+          >
+            <span>Visit indianatech.edu</span>
+            <ExternalLink className="size-3.5" />
+          </a>
           <div className="pt-2 border-t border-neutral-200 dark:border-white/10 flex flex-col gap-2">
             <Link
               href="/login"
@@ -123,10 +146,10 @@ export function Header() {
             </Link>
             <Link
               href="/chat"
-              className="w-full text-center py-2 text-sm font-semibold rounded-lg bg-neutral-900 text-white dark:bg-white dark:text-black"
+              className="w-full text-center py-2 text-sm font-semibold rounded-lg bg-neutral-900 text-white dark:bg-amber-400 dark:text-black"
               onClick={() => setMenuOpen(false)}
             >
-              Get started
+              Ask Assistant
             </Link>
           </div>
         </div>

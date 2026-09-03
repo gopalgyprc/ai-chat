@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/components/auth/AuthProvider'
-import { Sparkles, ArrowLeft, ShieldCheck, Zap } from 'lucide-react'
+import { Sparkles, ArrowLeft, ShieldCheck, Zap, GraduationCap } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 export default function LoginPage() {
@@ -64,11 +64,11 @@ export default function LoginPage() {
         </div>
         <div className="mb-8 text-center">
           <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 shadow-lg shadow-orange-500/30">
-            <Sparkles className="size-6 text-white" />
+            <GraduationCap className="size-6 text-black" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Welcome to Alchat</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Indiana Tech AI Assistant</h1>
           <p className="mt-2 text-xs text-neutral-500 dark:text-white/60">
-            Sign in to access your intelligent AI workspace and saved conversations
+            Sign in to access your admissions guidance and saved university inquiries
           </p>
         </div>
 

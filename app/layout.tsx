@@ -67,8 +67,8 @@ const poppins = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Alchat — The Future of Human-AI Synergy',
-  description: 'An intelligent AI workspace for faster thinking, creating, and getting things done.',
+  title: 'Indiana Tech AI Assistant — Official Knowledge & Admissions Guide',
+  description: 'An intelligent AI assistant strictly dedicated to Indiana Tech (https://www.indianatech.edu/) programs, admissions, tuition, and campus life.',
   icons: {
     icon: [
       {

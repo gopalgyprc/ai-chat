@@ -1,35 +1,40 @@
 import React from 'react'
+import { Building2 } from 'lucide-react'
 
 export function HowItWorks() {
   const steps = [
     {
       step: '1',
-      title: 'Open your workspace',
+      title: 'Ask any Indiana Tech question',
       description:
-        'Sign in securely with Google or launch the instant demo. No credit card or setup required.',
+        'Inquire about academic degrees, tuition rates, English proficiency (TOEFL/IELTS), housing, or admissions deadlines.',
     },
     {
       step: '2',
-      title: 'Chat and collaborate',
+      title: 'Get instant, verified answers',
       description:
-        'Ask technical questions, debug code, draft content, or use 1-click follow-up question suggestions.',
+        'The virtual assistant provides accurate answers grounded strictly in official data from indianatech.edu with zero guesswork.',
     },
     {
       step: '3',
-      title: 'Stay organized automatically',
+      title: 'Apply online or connect with staff',
       description:
-        'Your conversations are saved locally and synced to the cloud, organized by date for easy access.',
+        'Follow direct links to submit a free rolling application, calculate net price, or email the admissions team directly.',
     },
   ]
 
   return (
     <section id="how-it-works" className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-neutral-100 dark:border-neutral-900">
       <div className="max-w-2xl">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400">
+          <Building2 className="size-3.5" />
+          <span>Simple 3-Step Process</span>
+        </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
-          How it works
+          How It Works
         </h2>
         <p className="mt-3 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400">
-          Get started in seconds with a simple, familiar workflow.
+          Get fast, reliable student guidance with an intuitive interface.
         </p>
       </div>
 
@@ -37,10 +42,10 @@ export function HowItWorks() {
         {steps.map((s) => (
           <div
             key={s.step}
-            className="flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-6 sm:p-7 dark:border-neutral-800 dark:bg-[#121214] shadow-2xs"
+            className="flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-6 sm:p-7 dark:border-neutral-800 dark:bg-[#121214] shadow-2xs hover:border-amber-500/40 transition-colors"
           >
             <div>
-              <span className="flex size-7 items-center justify-center rounded-md bg-neutral-900 text-xs font-bold text-white dark:bg-white dark:text-black">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-amber-500 text-xs font-bold text-black shadow-xs">
                 {s.step}
               </span>
               <h3 className="mt-4 text-base sm:text-lg font-semibold text-neutral-900 dark:text-white">

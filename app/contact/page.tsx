@@ -34,20 +34,20 @@ export default function ContactPage() {
 
   const faqs = [
     {
-      q: 'How does Alchat connect with Google Gemini?',
-      a: 'Alchat connects securely through server-side Next.js route handlers using the official Google GenAI SDK. Your API keys are kept strictly on the server and are never exposed to the client browser.',
+      q: 'How do I apply for admission to Indiana Tech?',
+      a: 'You can submit an online application for free on our rolling admissions basis at indianatech.edu/apply. There is no application fee for undergraduate, graduate, or international applicants.',
     },
     {
-      q: 'Is my chat history saved automatically?',
-      a: 'Yes! Alchat uses a local-first caching layer backed by Cloud Firestore. All your conversations and messages are persisted instantly and synced to your secure Firebase account.',
+      q: 'Where is the Indiana Tech main campus located?',
+      a: 'The main campus is located at 1600 E. Washington Blvd., Fort Wayne, Indiana 46803. We also have regional and enrollment centers across Indiana, Kentucky, and the Chicago area.',
     },
     {
-      q: 'Can I switch between Light Mode and Dark Mode?',
-      a: 'Absolutely. You can toggle between dark and light themes at any time by clicking the Sun / Moon toggle icon in the top navigation bar or sidebar.',
+      q: 'How do international students receive a Form I-20?',
+      a: 'Once accepted academically and proof of English proficiency (TOEFL 70 / IELTS 6.0 / Duolingo 105) along with financial guarantee documents are verified, our International Admissions team promptly issues your official Form I-20.',
     },
     {
-      q: 'How can I report a bug or request a feature?',
-      a: 'You can submit your feature requests or bug reports directly through this contact form, or by reaching out to our developer support team at support@alchat.ai.',
+      q: 'What degree programs are offered 100% online?',
+      a: 'Through the College of Professional Studies (CPS), Indiana Tech offers accelerated associate, bachelor’s, and master’s degrees (including MBA, MS Cybersecurity, and MS Management), as well as a Ph.D. in Global Leadership.',
     },
   ]
 
@@ -59,31 +59,31 @@ export default function ContactPage() {
         <div className="text-center max-w-3xl mx-auto">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white/80 px-4 py-1.5 text-xs font-semibold text-neutral-800 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/80">
             <Mail className="size-3.5 text-amber-500 dark:text-amber-400" />
-            <span>Contact & Support</span>
+            <span>Admissions & Inquiries</span>
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl text-neutral-900 dark:text-white leading-[1.15]">
-            We&apos;d Love to{' '}
+            Contact{' '}
             <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              Hear from You
+              Indiana Tech
             </span>
           </h1>
           <p className="mt-4 text-base sm:text-lg text-neutral-600 dark:text-white/75">
-            Have questions about Alchat, API integrations, enterprise solutions, or feedback? Send us a message!
+            Have questions about degree programs, campus tours, tuition, or international student admissions? Connect with our team.
           </p>
         </div>
         <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5 space-y-6">
             <div className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-[#141416]">
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-6">Direct Channels</h3>
+              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-6">Official Contacts</h3>
               <div className="space-y-6 text-sm">
                 <div className="flex items-start gap-4">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
                     <Mail className="size-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-neutral-900 dark:text-white">Email Support</p>
-                    <p className="text-xs text-neutral-500 dark:text-white/60 mt-0.5">support@alchat.ai</p>
-                    <p className="text-xs text-neutral-400 dark:text-white/40 mt-1">Replies within 12 hours</p>
+                    <p className="font-semibold text-neutral-900 dark:text-white">Admissions Office</p>
+                    <p className="text-xs text-neutral-500 dark:text-white/60 mt-0.5">admissions@indianatech.edu</p>
+                    <p className="text-xs text-neutral-400 dark:text-white/40 mt-1">International: international@indianatech.edu</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -91,8 +91,8 @@ export default function ContactPage() {
                     <MessageSquare className="size-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-neutral-900 dark:text-white">Live AI Chat</p>
-                    <p className="text-xs text-neutral-500 dark:text-white/60 mt-0.5">Available 24/7 inside the workspace</p>
+                    <p className="font-semibold text-neutral-900 dark:text-white">Main Telephone</p>
+                    <p className="text-xs text-neutral-500 dark:text-white/60 mt-0.5">(800) 937-2448 / (260) 422-5561</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -100,15 +100,15 @@ export default function ContactPage() {
                     <MapPin className="size-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-neutral-900 dark:text-white">Headquarters</p>
-                    <p className="text-xs text-neutral-500 dark:text-white/60 mt-0.5">500 Howard Street, San Francisco, CA</p>
+                    <p className="font-semibold text-neutral-900 dark:text-white">Main Campus Location</p>
+                    <p className="text-xs text-neutral-500 dark:text-white/60 mt-0.5">1600 E. Washington Blvd., Fort Wayne, IN 46803</p>
                   </div>
                 </div>
               </div>
             </div>
             <div className="rounded-2xl border border-neutral-200 bg-neutral-100/70 p-5 text-xs text-neutral-600 dark:border-white/5 dark:bg-[#111113] dark:text-white/70 flex items-center gap-3">
               <Clock className="size-4 text-amber-500 shrink-0" />
-              <span>Our team is active Monday–Friday, 9 AM – 6 PM PST.</span>
+              <span>Office hours: Monday–Friday, 8:30 AM – 5:00 PM EST.</span>
             </div>
           </div>
           <div className="lg:col-span-7">

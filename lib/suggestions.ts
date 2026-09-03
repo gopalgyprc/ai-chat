@@ -10,126 +10,146 @@ export function getSuggestedQuestions(userMessage?: string, assistantMessage?: s
     (userMessage && userMessage.trim().length <= 4)
   ) {
     return [
-      '🎓 What are the best final year project ideas in Computer Science & AI?',
-      '📚 How can I structure an academic research paper in IEEE format?',
-      '📝 Create a 7-day study timetable for semester final exams',
-      '💼 Draft an ATS-friendly student resume for campus placements & internships',
-      '🧪 Help me write a professional engineering lab report conclusion',
+      '🎓 What undergraduate and graduate programs does Indiana Tech offer?',
+      '💵 What is the tuition cost and what scholarships are available?',
+      '🌍 How can international students apply and what are the English requirements?',
+      '📍 Where is Indiana Tech located and what is the campus like?',
+      '👤 Who is the president of Indiana Tech?',
     ]
   }
 
-
   if (
-    combined.includes('code') ||
-    combined.includes('function') ||
-    combined.includes('react') ||
-    combined.includes('python') ||
-    combined.includes('typescript') ||
-    combined.includes('javascript') ||
-    combined.includes('api') ||
-    combined.includes('bug') ||
-    combined.includes('database') ||
-    combined.includes('sql') ||
-    combined.includes('algorithm') ||
-    combined.includes('project') ||
-    combined.includes('data structure')
+    combined.includes('international') ||
+    combined.includes('toefl') ||
+    combined.includes('ielts') ||
+    combined.includes('duolingo') ||
+    combined.includes('visa') ||
+    combined.includes('i-20') ||
+    combined.includes('country')
   ) {
     return [
-      '📊 How do I design the system architecture diagram and ERD for this project?',
-      '🧪 What are the most common technical viva / presentation questions for this code?',
-      '📝 Can you write comprehensive step-by-step comments explaining this for my project report?',
-      '⚡ What are the time and space complexities (Big-O) of this implementation?',
-      '🛡️ How can I add robust error handling and input validation for the project demo?',
+      '📜 What are the exact TOEFL, IELTS, and Duolingo score requirements?',
+      '💰 What international merit scholarships does Indiana Tech provide?',
+      '📋 What documents are needed to receive an official Form I-20?',
+      '🛂 How does the rolling admissions timeline work for international applicants?',
+      '✉️ How do I contact the Indiana Tech International Admissions team?',
     ]
   }
 
   if (
+    combined.includes('tuition') ||
+    combined.includes('cost') ||
+    combined.includes('scholarship') ||
+    combined.includes('financial aid') ||
+    combined.includes('fee') ||
+    combined.includes('price') ||
+    combined.includes('afford')
+  ) {
+    return [
+      '🎓 What are the GPA requirements for Indiana Tech merit scholarships?',
+      '💻 What is the tuition rate for online degrees through College of Professional Studies?',
+      '🏠 What are the on-campus housing and meal plan costs in Fort Wayne?',
+      '📊 Does Indiana Tech offer a Net Price Calculator for prospective students?',
+      '🏆 Are there full-tuition Presidential scholarships available?',
+    ]
+  }
+
+  if (
+    combined.includes('program') ||
+    combined.includes('major') ||
+    combined.includes('degree') ||
+    combined.includes('engineering') ||
+    combined.includes('computer science') ||
+    combined.includes('business') ||
+    combined.includes('cybersecurity') ||
+    combined.includes('phd')
+  ) {
+    return [
+      '⚙️ What engineering degrees are offered in the Talwar College?',
+      '💼 Tell me about the MBA and business administration concentrations',
+      '🔒 What coursework is included in the B.S. / M.S. in Cybersecurity?',
+      '🎓 How does the Ph.D. in Global Leadership doctoral program work?',
+      '🌐 What degrees are 100% online through the College of Professional Studies?',
+    ]
+  }
+
+  if (
+    combined.includes('admission') ||
+    combined.includes('apply') ||
+    combined.includes('requirement') ||
+    combined.includes('deadline') ||
+    combined.includes('gpa') ||
+    combined.includes('transfer')
+  ) {
+    return [
+      '📝 Is there an application fee to apply to Indiana Tech?',
+      '📅 How does Indiana Tech\'s rolling admission process work?',
+      '📊 Are SAT / ACT scores mandatory for undergraduate admissions?',
+      '🔄 How can transfer students transfer credits into Indiana Tech?',
+      '🎯 What is the minimum GPA required for graduate degree programs?',
+    ]
+  }
+
+  if (
+    combined.includes('leadership') ||
+    combined.includes('staff') ||
+    combined.includes('dean') ||
+    combined.includes('anderson') ||
+    combined.includes('clarke') ||
+    combined.includes('president') ||
+    combined.includes('einolf')
+  ) {
+    return [
+      '👤 Who is the Vice President for Academic Affairs and how do I contact them?',
+      '💼 Who is the Dean of the College of Business?',
+      '🌐 Who directs International Student Academic Engagement & Online Learning?',
+      '🏛️ Who is President Dr. Karl W. Einolf and what is his background?',
+      '✉️ How can I contact Indiana Tech academic department offices?',
+    ]
+  }
+
+  if (
+    combined.includes('irb') ||
+    combined.includes('institutional review board') ||
     combined.includes('research') ||
-    combined.includes('paper') ||
-    combined.includes('thesis') ||
-    combined.includes('citation') ||
-    combined.includes('apa') ||
-    combined.includes('ieee') ||
-    combined.includes('literature') ||
-    combined.includes('abstract') ||
-    combined.includes('plagiarism') ||
-    combined.includes('methodology')
+    combined.includes('citi') ||
+    combined.includes('consent') ||
+    combined.includes('assent') ||
+    combined.includes('protocol')
   ) {
     return [
-      '📖 How do I properly format in-text citations and bibliography in APA 7th / IEEE style?',
-      '🔍 Can you help me formulate a strong research hypothesis and problem statement?',
-      '📊 How do I synthesize findings in the literature review without plagiarism?',
-      '📑 What should be included in the project abstract and future scope section?',
-      '🎯 Help me prepare 5 challenging defense questions a professor or examiner might ask',
+      '🔬 Why does Indiana Tech require IRB approval for research?',
+      '📋 Who submits the IRB application for undergraduate vs doctoral research?',
+      '⏱️ How long does the IRB review process take and what is the turnaround?',
+      '🎓 What are the mandatory CITI certification training requirements?',
+      '📁 What is Indiana Tech’s data handling and 3-year record retention policy?',
     ]
   }
 
-
   if (
-    combined.includes('math') ||
-    combined.includes('physics') ||
-    combined.includes('matrix') ||
-    combined.includes('calculus') ||
-    combined.includes('derivative') ||
-    combined.includes('integral') ||
-    combined.includes('equation') ||
-    combined.includes('circuit') ||
-    combined.includes('formula')
+    combined.includes('campus') ||
+    combined.includes('athletics') ||
+    combined.includes('warrior') ||
+    combined.includes('sport') ||
+    combined.includes('housing') ||
+    combined.includes('fort wayne') ||
+    combined.includes('life')
   ) {
     return [
-      '📐 Can you solve this step-by-step showing all intermediate formulas and units?',
-      '🔬 What is the practical engineering application of this mathematical concept?',
-      '📈 How do I interpret and plot the experimental data results in my lab report?',
-      '💡 Explain the fundamental underlying theorem and boundary conditions clearly',
-      '📝 Provide a practice examination problem on this topic with detailed solution key',
-    ]
-  }
-
-
-  if (
-    combined.includes('exam') ||
-    combined.includes('study') ||
-    combined.includes('test') ||
-    combined.includes('quiz') ||
-    combined.includes('revision') ||
-    combined.includes('semester') ||
-    combined.includes('grade') ||
-    combined.includes('gpa')
-  ) {
-    return [
-      '⏰ Create an active recall practice quiz with 5 questions on this topic',
-      '🧠 Explain this concept using a simple real-world analogy for fast exam revision',
-      '📋 Provide a high-yield summary cheat-sheet of key definitions and formulas',
-      '🎯 What are the most frequently asked university examination questions on this subject?',
-      '💡 How can I memorize these key points using an effective mnemonic technique?',
-    ]
-  }
-
-
-  if (
-    combined.includes('career') ||
-    combined.includes('interview') ||
-    combined.includes('resume') ||
-    combined.includes('internship') ||
-    combined.includes('placement') ||
-    combined.includes('job') ||
-    combined.includes('email') ||
-    combined.includes('professor')
-  ) {
-    return [
-      '💼 What are the top technical interview questions asked for this role in campus hiring?',
-      '✉️ Draft a polite formal email to a professor requesting project guidance or LOR',
-      '🎯 How should I describe this university project on my LinkedIn and resume?',
-      '🚀 What key skills and certifications should I learn alongside my university degree?',
-      '💡 Provide a framework to answer: "Walk me through your final year project"',
+      '⚔️ What NAIA athletic teams compete for the Indiana Tech Warriors?',
+      '🦁 What is Indiana Tech\'s mascot and athletic conference?',
+      '🏢 What facilities and labs are available on the Fort Wayne campus?',
+      '🏘️ What residence halls and housing options are available for students?',
+      '📍 Where are Indiana Tech\'s regional classroom centers located?',
     ]
   }
 
   return [
-    '🎓 How can I apply this concept in a university academic project or coursework?',
-    '💡 Can you break this down step-by-step with practical examples for student learning?',
-    '📚 What are the standard university textbook references for further reading on this?',
-    '❓ What are the most common student mistakes or misconceptions on this topic?',
-    '📋 Can you summarize this as bullet points suitable for lecture revision notes?',
+    '🎓 What degree programs does Indiana Tech offer?',
+    '💵 What is the cost of tuition and financial aid options?',
+    '🌍 How do international admissions and I-20 issuance work?',
+    '📍 Tell me about Indiana Tech\'s main campus in Fort Wayne',
+    '📝 How do I submit a free online application to Indiana Tech?',
   ]
 }
+

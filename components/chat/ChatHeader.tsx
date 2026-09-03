@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Menu, Plus, Sparkles } from 'lucide-react'
+import { Menu, Plus, Sparkles, ExternalLink, GraduationCap } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 interface ChatHeaderProps {
@@ -11,7 +11,7 @@ interface ChatHeaderProps {
 }
 
 export function ChatHeader({
-  title = 'Ai Chat',
+  title = 'Indiana Tech Assistant',
   onToggleSidebar,
   onNewChat,
 }: ChatHeaderProps) {
@@ -28,15 +28,30 @@ export function ChatHeader({
 
         <div className="flex items-center gap-2.5">
           <div className="hidden size-7 items-center justify-center rounded-xl bg-[#fbbf24] text-black md:flex shadow-sm">
-            <Sparkles className="size-4 fill-black" />
+            <GraduationCap className="size-4" />
           </div>
-          <h2 className="text-sm sm:text-base font-semibold text-neutral-900 dark:text-white truncate max-w-[180px] sm:max-w-md">
-            {title}
-          </h2>
+          <div className="flex flex-col">
+            <h2 className="text-sm sm:text-base font-semibold text-neutral-900 dark:text-white truncate max-w-[180px] sm:max-w-md leading-tight">
+              {title}
+            </h2>
+            <span className="hidden sm:inline text-[11px] text-amber-600 dark:text-amber-400 font-medium">
+              Official Knowledge from indianatech.edu
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2 sm:gap-2.5">
+        <a
+          href="https://www.indianatech.edu"
+          target="_blank"
+          rel="noreferrer"
+          className="hidden sm:inline-flex items-center gap-1 rounded-xl border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-xs font-semibold text-amber-700 dark:text-amber-300 hover:bg-amber-500/20 transition-colors"
+          title="Visit official website"
+        >
+          <span>indianatech.edu</span>
+          <ExternalLink className="size-3" />
+        </a>
         <ThemeToggle variant="icon" />
         <button
           onClick={onNewChat}

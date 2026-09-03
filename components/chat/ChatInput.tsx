@@ -90,7 +90,7 @@ export function ChatInput({
           disabled={disabled}
           rows={1}
           autoFocus
-          placeholder="How can I help you?"
+          placeholder="Ask anything about Indiana Tech (programs, tuition, admissions)..."
           className="max-h-44 min-h-[26px] flex-1 resize-none bg-transparent text-[15px] sm:text-base text-neutral-900 placeholder-neutral-400 outline-none leading-relaxed dark:text-white dark:placeholder-white/45"
         />
         <button
@@ -107,8 +107,7 @@ export function ChatInput({
         </button>
       </form>
       <p className="mt-2.5 text-center text-xs leading-relaxed text-neutral-500 dark:text-white/45">
-        Ai Chat may produce inaccurate information about people, places, or facts.
-        Version Wed Aug 2 9:31 PM. Privacy Policy. Legal Notice. Copyright © 2023 Ai Chat. All rights reserved.
+        Indiana Tech AI Assistant • Answers strictly restricted to official information from <a href="https://www.indianatech.edu" target="_blank" rel="noreferrer" className="underline hover:text-amber-500 dark:hover:text-amber-400">indianatech.edu</a>.
       </p>
     </div>
   )

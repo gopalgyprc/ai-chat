@@ -3,8 +3,11 @@
 import React from 'react'
 import {
   GraduationCap,
-  FolderGit2,
-  Briefcase,
+  Globe,
+  DollarSign,
+  Building2,
+  ShieldCheck,
+  Award,
 } from 'lucide-react'
 
 interface ChatWelcomeProps {
@@ -14,68 +17,68 @@ interface ChatWelcomeProps {
 export function ChatWelcome({ onSelectPrompt }: ChatWelcomeProps) {
   const columns = [
     {
-      title: 'Academics & Study',
+      title: 'Colleges & Academic Degrees',
       icon: GraduationCap,
       iconColor: 'text-amber-500 dark:text-amber-400',
       cards: [
         {
-          title: 'Exam Revision Plan:',
-          desc: 'Create a high-yield 7-day study timetable.',
-          prompt: 'Create a structured 7-day active recall revision schedule with practice quizzes for my semester exams.',
+          title: 'Talwar Engineering & Computing:',
+          desc: 'Computer Science, Cybersecurity, ABET Engineering.',
+          prompt: 'What undergraduate and graduate engineering and computer science programs are offered in the Talwar College at Indiana Tech?',
         },
         {
-          title: 'Research Paper Formatting:',
-          desc: 'Structure citations and literature review.',
-          prompt: 'How do I structure a 10-page academic research paper in IEEE format with proper in-text citations and bibliography?',
+          title: 'College of Business & MBA:',
+          desc: 'Accounting, Management, Sports, MBA.',
+          prompt: 'What business majors, concentrations, and MBA options does Indiana Tech offer?',
         },
         {
-          title: 'Step-by-Step Problem Solver:',
-          desc: 'Solve complex math & engineering problems.',
-          prompt: 'Explain how to solve complex matrix eigenvalue problems step-by-step with practical engineering applications.',
+          title: '100% Online Degrees (CPS):',
+          desc: 'Flexible accelerated degrees for working adults.',
+          prompt: 'How do online degrees work through Indiana Tech\'s College of Professional Studies (CPS)?',
         },
       ],
     },
     {
-      title: 'Final Year Projects',
-      icon: FolderGit2,
+      title: 'Admissions & International Students',
+      icon: Globe,
       iconColor: 'text-orange-500 dark:text-orange-400',
       cards: [
         {
-          title: 'Project Topic Selection:',
-          desc: 'Brainstorm cutting-edge engineering topics.',
-          prompt: 'Suggest 5 innovative final year engineering project ideas combining Full-Stack Web, AI, and Cloud Architecture with high impact.',
+          title: 'International Student Guide:',
+          desc: 'TOEFL/IELTS, I-20 visa issuance, checklist.',
+          prompt: 'How can international students apply to Indiana Tech, and what are the English proficiency (TOEFL/IELTS/Duolingo) and Form I-20 requirements?',
         },
         {
-          title: 'Architecture & Schema Design:',
-          desc: 'Design system workflows and ER diagrams.',
-          prompt: 'Help me design the system architecture diagram, database schema (ERD), and API endpoints for a scalable university management portal.',
+          title: 'Free Rolling Application:',
+          desc: 'No application fee, fast evaluation.',
+          prompt: 'How does Indiana Tech\'s free online application and rolling admissions process work?',
         },
         {
-          title: 'Project Viva & Defense Prep:',
-          desc: 'Practice examiner defense questions.',
-          prompt: 'Generate 10 challenging technical viva questions that university external examiners frequently ask during final project defense.',
+          title: 'Graduate & Ph.D. Admissions:',
+          desc: 'Master\'s degrees & Ph.D. Global Leadership.',
+          prompt: 'What are the admission requirements for graduate master\'s programs and the Ph.D. in Global Leadership at Indiana Tech?',
         },
       ],
     },
     {
-      title: 'Career & Campus Prep',
-      icon: Briefcase,
+      title: 'Tuition, Scholarships & Campus',
+      icon: DollarSign,
       iconColor: 'text-amber-500 dark:text-amber-300',
       cards: [
         {
-          title: 'Student Resume & LOR:',
-          desc: 'Craft ATS resumes & email professors.',
-          prompt: 'Draft a polite formal email to my university professor requesting a strong Letter of Recommendation (LOR) for graduate studies / internships.',
+          title: 'Tuition & Cost of Attendance:',
+          desc: 'Undergraduate, online rates & housing.',
+          prompt: 'What is the tuition cost per semester at Indiana Tech, and how much is housing and dining on the Fort Wayne campus?',
         },
         {
-          title: 'Campus Placement Prep:',
-          desc: 'Technical & HR interview practice.',
-          prompt: 'Give me the top 10 Data Structures & Algorithms (DSA) questions most frequently asked in on-campus software engineering placements.',
+          title: 'Merit Scholarships & Aid:',
+          desc: 'Up to $18,000/yr international & domestic aid.',
+          prompt: 'What institutional scholarships, merit awards (up to $18,000/year), and financial aid programs are available at Indiana Tech?',
         },
         {
-          title: 'Lab Report Formatter:',
-          desc: 'Write clear engineering lab conclusions.',
-          prompt: 'Help me write a professional academic laboratory report conclusion with error analysis and future research scope.',
+          title: 'Fort Wayne Campus & Warriors:',
+          desc: '1600 E Washington Blvd, NAIA athletics.',
+          prompt: 'Where is Indiana Tech located, who is the president, and what NAIA sports teams compete for the Indiana Tech Warriors?',
         },
       ],
     },
@@ -84,11 +87,15 @@ export function ChatWelcome({ onSelectPrompt }: ChatWelcomeProps) {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center px-4 py-8 text-center sm:py-12">
       {/* Main Title */}
+      <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400">
+        <Building2 className="size-3.5" />
+        <span>Official Knowledge Base • indianatech.edu</span>
+      </div>
       <h1 className="mb-2 text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
-        University AI Assistant
+        Indiana Tech AI Assistant
       </h1>
-      <p className="mb-10 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 max-w-lg">
-        Your academic companion for coursework, exam revision, final year project implementation, and campus placements.
+      <p className="mb-10 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-xl">
+        Your dedicated virtual guide for official information about <strong>Indiana Tech</strong> in Fort Wayne, Indiana. Ask about academic programs, admissions, tuition, international visas, and campus life.
       </p>
 
       {/* 3 Columns Layout */}
@@ -124,3 +131,4 @@ export function ChatWelcome({ onSelectPrompt }: ChatWelcomeProps) {
     </div>
   )
 }
+

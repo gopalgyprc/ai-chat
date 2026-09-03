@@ -1,46 +1,50 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Building2 } from 'lucide-react'
 
 export function FaqSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
 
   const faqs = [
     {
-      q: 'Which AI model powers AIchat?',
-      a: 'AIchat is powered by Google Gemini 3.6 Flash. We stream tokens directly using the official Google Gen AI SDK for low latency and deep multi-turn context awareness across long technical conversations.',
+      q: 'What academic degree programs does Indiana Tech offer?',
+      a: 'Indiana Tech offers career-focused degrees at the associate, bachelor’s, master’s (MBA, MS Cybersecurity, MS Management), and Ph.D. level in Global Leadership. Degrees are housed across the Talwar College of Engineering and Computer Sciences, College of Business, College of Arts and Sciences, and the College of Professional Studies (100% online).',
     },
     {
-      q: 'Do I need to pay or provide a credit card?',
-      a: 'No. You can start chatting immediately using Google Sign-In or test everything out instantly with our 1-click Demo account. No credit cards or lengthy sign-up forms are required.',
+      q: 'Is there an application fee to apply to Indiana Tech?',
+      a: 'No! Applying online to Indiana Tech is 100% FREE for all domestic and international undergraduate and graduate applicants at indianatech.edu/apply.',
     },
     {
-      q: 'What happens to my conversation history if I close my browser?',
-      a: 'All conversations are saved synchronously to your local browser storage and synced to your secure Cloud Firestore account. Your past chats remain organized by date in the sidebar and are ready whenever you return.',
+      q: 'What are the admission requirements for international students?',
+      a: 'International applicants must submit their free online application, official academic transcripts with certified English translations, copy of passport, and proof of English proficiency (TOEFL iBT 70, IELTS 6.0, Duolingo DET 105, or PTE 51). Form I-20 is issued promptly upon verification of financial guarantee documents.',
     },
     {
-      q: 'How does the Dark Mode / Light Mode toggle work?',
-      a: 'Click the Sun/Moon icon in the top navigation or chat header. Your preferred theme is stored in local storage and persists across page refreshes and devices without flickering.',
+      q: 'How much is tuition and what scholarships are available?',
+      a: 'Traditional undergraduate tuition is ~$16,436 per semester (~$32,872/year). Over 90% of students receive institutional financial aid. International students can qualify for merit scholarships up to $18,000 per year, and there are two full-tuition Presidential scholarships available annually.',
     },
     {
-      q: 'Can I copy formatted code blocks and responses?',
-      a: 'Yes. Every response includes a one-click copy button, and code snippets are automatically highlighted with proper language tags and formatted in clean markdown.',
+      q: 'Where is Indiana Tech located and who is the university president?',
+      a: 'The main campus is located at 1600 E. Washington Blvd., Fort Wayne, Indiana 46803. Dr. Karl W. Einolf has served as the president of Indiana Tech since July 2017.',
     },
     {
-      q: 'How do smart follow-up suggestions work?',
-      a: 'After every AI response, 4 to 5 contextual follow-up question chips appear automatically. Clicking any chip immediately sends that prompt into the chat, letting you explore topics deeply with zero typing.',
+      q: 'What athletics and sports teams compete at Indiana Tech?',
+      a: 'Indiana Tech’s athletic teams are the Warriors, represented by mascot Maximus the Warrior. The university competes in the National Association of Intercollegiate Athletics (NAIA) in the Wolverine-Hoosier Athletic Conference (WHAC) across 25+ varsity sports.',
     },
   ]
 
   return (
-    <section className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-neutral-100 dark:border-neutral-900">
+    <section id="faq" className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-neutral-100 dark:border-neutral-900">
       <div className="max-w-2xl">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400">
+          <Building2 className="size-3.5" />
+          <span>Frequently Asked Questions</span>
+        </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
-          Frequently asked questions
+          Answers to Common Questions
         </h2>
         <p className="mt-3 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400">
-          Everything you need to know about the platform, privacy, and how it works.
+          Everything you need to know about Indiana Tech admissions, degrees, tuition, and international policies.
         </p>
       </div>
 
@@ -50,7 +54,7 @@ export function FaqSection() {
           return (
             <div
               key={faq.q}
-              className="rounded-xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-[#121214] shadow-2xs"
+              className="rounded-xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-[#121214] shadow-2xs hover:border-amber-500/30 transition-colors"
             >
               <button
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
@@ -64,7 +68,7 @@ export function FaqSection() {
                 />
               </button>
               {isOpen && (
-                <p className="mt-3 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed border-t border-neutral-100 dark:border-neutral-800/70 pt-3">
+                <p className="mt-3 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed border-t border-neutral-100 dark:border-neutral-800/70 pt-3">
                   {faq.a}
                 </p>
               )}

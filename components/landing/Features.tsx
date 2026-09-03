@@ -1,31 +1,31 @@
 import React from 'react'
-import { Zap, MessageSquare, Shield, Laptop } from 'lucide-react'
+import { GraduationCap, Briefcase, DollarSign, Globe, Building2 } from 'lucide-react'
 
 export function Features() {
   const features = [
     {
-      icon: Zap,
-      title: 'Fast AI conversations',
+      icon: GraduationCap,
+      title: 'Talwar Engineering & Computing',
       description:
-        'Get clear, useful answers with real-time streaming tokens powered by Google Gemini.',
+        'ABET-accredited engineering degrees in Biomedical, Mechanical, Electrical, plus cutting-edge Computer Science & Cybersecurity programs.',
     },
     {
-      icon: MessageSquare,
-      title: 'Organized conversations',
+      icon: Briefcase,
+      title: 'College of Business & Leadership',
       description:
-        'Your chat history is automatically grouped by date in the sidebar so you can easily find and revisit past work.',
+        'Hands-on degrees in Accounting, Business Administration, Sports Management, MBA tracks, and a Ph.D. in Global Leadership.',
     },
     {
-      icon: Shield,
-      title: 'Google sign-in & instant demo',
+      icon: DollarSign,
+      title: 'Tuition & Merit Scholarships',
       description:
-        'Securely sign in with your Google account, or test the complete workspace instantly with 1-click guest access.',
+        'Traditional undergraduate tuition is ~$16,436/semester with international merit awards up to $18,000/year and full-tuition scholarships.',
     },
     {
-      icon: Laptop,
-      title: 'Local-first cloud sync',
+      icon: Globe,
+      title: 'International Student Guidance',
       description:
-        'Messages save immediately to your device with zero delay and sync to your Firebase cloud account in the background.',
+        'Free rolling admissions, clear English proficiency standards (TOEFL 70 / IELTS 6.0 / Duolingo 105), and expedited Form I-20 visa support.',
     },
   ]
 
@@ -33,26 +33,30 @@ export function Features() {
     <section id="features" className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-16 sm:py-24">
       {/* Section Header */}
       <div className="max-w-2xl">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400">
+          <Building2 className="size-3.5" />
+          <span>Academic Excellence & Support</span>
+        </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
-          Built for everyday productivity
+          Everything You Need to Know About Indiana Tech
         </h2>
         <p className="mt-3 text-sm sm:text-base lg:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          Everything you need to think, code, write, and organize your ideas without clutter.
+          From hands-on STEM and business degrees in Fort Wayne to 100% online programs, financial aid, and campus housing.
         </p>
       </div>
 
-      {/* 4 Realistic Feature Cards */}
+      {/* 4 Feature Cards */}
       <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {features.map((f) => {
           const Icon = f.icon
           return (
             <div
               key={f.title}
-              className="flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-[#121214] shadow-2xs"
+              className="flex flex-col justify-between rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-[#121214] shadow-2xs hover:border-amber-500/40 transition-colors"
             >
               <div>
-                <div className="flex size-9 items-center justify-center rounded-lg bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200">
-                  <Icon className="size-4.5" />
+                <div className="flex size-10 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 dark:bg-amber-400/10 dark:text-amber-400">
+                  <Icon className="size-5" />
                 </div>
                 <h3 className="mt-4 text-base font-semibold text-neutral-900 dark:text-white">
                   {f.title}
