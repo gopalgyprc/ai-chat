@@ -23,10 +23,20 @@ export function ChatInput({
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const recognitionRef = useRef<any>(null)
   const baseTextRef = useRef<string>('')
+  const isListeningRef = useRef<boolean>(false)
+  const textRef = useRef<string>(initialValue)
 
+  // Synchronize textRef with current text state
   useEffect(() => {
-    textareaRef.current?.focus({ preventScroll: true })
-  }, [isGenerating])
+    textRef.current = text
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${Math.min(
+        textareaRef.current.scrollHeight,
+        180
+      )}px`
+    }
+  }, [text])
 
   useEffect(() => {
     if (initialValue) {
@@ -38,79 +48,105 @@ export function ChatInput({
   }, [initialValue])
 
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'
-      textareaRef.current.style.height = `${Math.min(
-        textareaRef.current.scrollHeight,
-        180
-      )}px`
-    }
-  }, [text])
+    textareaRef.current?.focus({ preventScroll: true })
+  }, [isGenerating])
 
-  // Speech-to-Text initialization with clean non-duplicating transcript handling
+  // Synchronize isListeningRef with listening state
+  useEffect(() => {
+    isListeningRef.current = isListening
+  }, [isListening])
+
+  const stopListening = () => {
+    isListeningRef.current = false
+    setIsListening(false)
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop()
+      } catch (err) {
+        // Safe ignore
+      }
+    }
+  }
+
+  // Speech-to-Text initialization with mobile-safe non-duplicating transcript handling
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const SpeechRecognition =
         (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition()
-        recognition.continuous = true
+        recognition.continuous = false
         recognition.interimResults = true
         recognition.lang = 'en-US'
 
         recognition.onresult = (event: any) => {
-          let finalTranscript = ''
-          let interimTranscript = ''
-
+          let currentUtterance = ''
           for (let i = 0; i < event.results.length; i++) {
             const item = event.results[i]
             if (item && item[0] && item[0].transcript) {
-              const piece = item[0].transcript.trim()
-              if (item.isFinal) {
-                finalTranscript += (finalTranscript ? ' ' : '') + piece
-              } else {
-                interimTranscript += (interimTranscript ? ' ' : '') + piece
-              }
+              currentUtterance += item[0].transcript
             }
           }
 
-          const base = baseTextRef.current
-          const spoken = [finalTranscript, interimTranscript].filter(Boolean).join(' ').trim()
+          const base = baseTextRef.current.trim()
+          const spoken = currentUtterance.trim()
           const combined = base ? `${base} ${spoken}` : spoken
 
           setText(combined)
         }
 
         recognition.onerror = (e: any) => {
-          console.warn('Speech recognition notice:', e?.error)
-          setIsListening(false)
+          if (e?.error === 'not-allowed') {
+            console.warn('Microphone permission denied')
+            stopListening()
+          } else if (e?.error !== 'no-speech' && e?.error !== 'aborted') {
+            console.warn('Speech recognition notice:', e?.error)
+          }
         }
 
         recognition.onend = () => {
-          setIsListening(false)
+          if (isListeningRef.current) {
+            baseTextRef.current = textRef.current.trim()
+            try {
+              recognition.start()
+            } catch (err) {
+              stopListening()
+            }
+          } else {
+            setIsListening(false)
+          }
         }
 
         recognitionRef.current = recognition
+      }
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort()
+        } catch (e) {}
       }
     }
   }, [])
 
   const toggleVoiceListening = () => {
     if (!recognitionRef.current) {
-      alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.')
+      alert('Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.')
       return
     }
 
     if (isListening) {
-      recognitionRef.current.stop()
-      setIsListening(false)
+      stopListening()
     } else {
       try {
         baseTextRef.current = text.trim()
-        recognitionRef.current.start()
+        isListeningRef.current = true
         setIsListening(true)
+        recognitionRef.current.start()
       } catch (err) {
         console.warn('Voice start notice:', err)
+        stopListening()
       }
     }
   }
@@ -119,6 +155,9 @@ export function ChatInput({
     if (e) {
       e.preventDefault()
       e.stopPropagation()
+    }
+    if (isListening) {
+      stopListening()
     }
     if (isGenerating && onStopGenerating) {
       onStopGenerating()
