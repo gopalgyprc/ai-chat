@@ -7,7 +7,8 @@ import { ChatLayout } from '@/components/chat/ChatLayout'
 import { ChatWelcome } from '@/components/chat/ChatWelcome'
 import { MessageList } from '@/components/chat/MessageList'
 import { ChatInput } from '@/components/chat/ChatInput'
-import { Conversation, GroupedConversations } from '@/types/conversation'
+import { TuitionEstimatorModal } from '@/components/chat/TuitionEstimatorModal'
+import { Conversation } from '@/types/conversation'
 import { ChatMessage } from '@/types/chat'
 import {
   subscribeToUserConversations,
@@ -15,6 +16,9 @@ import {
   createConversation,
   addMessage,
   deleteConversation,
+  togglePinConversation,
+  updateConversationTitle,
+  clearAllConversations,
   groupConversations,
 } from '@/lib/firestore'
 import { Loader2 } from 'lucide-react'
@@ -29,11 +33,19 @@ export default function ChatPage() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [streamingContent, setStreamingContent] = useState<string>('')
   const [prefilledInput, setPrefilledInput] = useState<string>('')
+  const [isTuitionModalOpen, setIsTuitionModalOpen] = useState(false)
+
+  const abortControllerRef = useRef<AbortController | null>(null)
+  const activeStreamContentRef = useRef<string>('')
+
+  const LAST_ACTIVE_KEY = (uid: string) => `alchat_active_conv_${uid}`
+
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login')
     }
   }, [user, loading, router])
+
   useEffect(() => {
     if (!user) return
     const unsubscribe = subscribeToUserConversations(user.uid, (convList) => {
@@ -41,6 +53,28 @@ export default function ChatPage() {
     })
     return () => unsubscribe()
   }, [user])
+
+  // Restore ongoing conversation on page load / refresh
+  useEffect(() => {
+    if (!user || conversations.length === 0) return
+
+    // If active conversation already exists in current state, verify it's still present in the list
+    if (activeConversation) {
+      const exists = conversations.some((c) => c.id === activeConversation.id)
+      if (exists) return
+    }
+
+    try {
+      const savedConvId = localStorage.getItem(LAST_ACTIVE_KEY(user.uid))
+      if (savedConvId) {
+        const found = conversations.find((c) => c.id === savedConvId)
+        if (found) {
+          setActiveConversation(found)
+        }
+      }
+    } catch { }
+  }, [user, conversations, activeConversation])
+
   useEffect(() => {
     if (!user || !activeConversation) {
       setMessages([])
@@ -61,6 +95,11 @@ export default function ChatPage() {
     setPrefilledInput('')
     setStreamingContent('')
     setIsGenerating(false)
+    if (user) {
+      try {
+        localStorage.setItem(LAST_ACTIVE_KEY(user.uid), conv.id)
+      } catch { }
+    }
   }
 
   const handleNewChat = () => {
@@ -69,6 +108,11 @@ export default function ChatPage() {
     setStreamingContent('')
     setPrefilledInput('')
     setIsGenerating(false)
+    if (user) {
+      try {
+        localStorage.removeItem(LAST_ACTIVE_KEY(user.uid))
+      } catch { }
+    }
   }
 
   const handleDeleteConversation = async (id: string, e: React.MouseEvent) => {
@@ -77,6 +121,45 @@ export default function ChatPage() {
     await deleteConversation(user.uid, id)
     if (activeConversation?.id === id) {
       handleNewChat()
+    }
+  }
+
+  const handleTogglePin = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!user) return
+    await togglePinConversation(user.uid, id)
+  }
+
+  const handleRenameConversation = async (id: string, newTitle: string) => {
+    if (!user || !newTitle.trim()) return
+    await updateConversationTitle(user.uid, id, newTitle.trim())
+    if (activeConversation?.id === id) {
+      setActiveConversation((prev) => (prev ? { ...prev, title: newTitle.trim() } : null))
+    }
+  }
+
+  const handleClearAll = async () => {
+    if (!user) return
+    await clearAllConversations(user.uid)
+    handleNewChat()
+  }
+
+  const handleStopGenerating = async () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      abortControllerRef.current = null
+    }
+
+    const currentPartial = activeStreamContentRef.current.trim()
+    setIsGenerating(false)
+    setStreamingContent('')
+
+    if (currentPartial && user && activeConversation) {
+      const savedPartialMsg = await addMessage(user.uid, activeConversation.id, {
+        role: 'assistant',
+        content: currentPartial + ' *(Generation stopped by user)*',
+      })
+      setMessages((prev) => [...prev, savedPartialMsg])
     }
   }
 
@@ -89,7 +172,11 @@ export default function ChatPage() {
         text.length > 32 ? text.substring(0, 32).trim() + '...' : text.trim()
       currentConv = await createConversation(user.uid, generatedTitle)
       setActiveConversation(currentConv)
+      try {
+        localStorage.setItem(LAST_ACTIVE_KEY(user.uid), currentConv.id)
+      } catch { }
     }
+
     const userMsg: ChatMessage = {
       id: 'msg_temp_' + Date.now(),
       role: 'user',
@@ -99,6 +186,7 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, userMsg])
     setIsGenerating(true)
     setStreamingContent('')
+    activeStreamContentRef.current = ''
 
     addMessage(user.uid, currentConv.id, {
       role: 'user',
@@ -110,6 +198,9 @@ export default function ChatPage() {
       content: m.content,
     }))
 
+    const controller = new AbortController()
+    abortControllerRef.current = controller
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -118,6 +209,7 @@ export default function ChatPage() {
           message: text,
           history: historyPayload,
         }),
+        signal: controller.signal,
       })
 
       if (!response.ok || !response.body) {
@@ -140,16 +232,20 @@ export default function ChatPage() {
             const data = JSON.parse(line)
             if (data.type === 'chunk') {
               accumulated += data.text
+              activeStreamContentRef.current = accumulated
               setStreamingContent(accumulated)
             } else if (data.type === 'done') {
               accumulated = data.fullText || accumulated
+              activeStreamContentRef.current = accumulated
               setStreamingContent(accumulated)
             } else if (data.type === 'error') {
               accumulated += (accumulated ? '\n\n' : '') + `⚠️ AI Notice: ${data.error}`
+              activeStreamContentRef.current = accumulated
               setStreamingContent(accumulated)
             }
           } catch {
             accumulated += line
+            activeStreamContentRef.current = accumulated
             setStreamingContent(accumulated)
           }
         }
@@ -163,8 +259,12 @@ export default function ChatPage() {
 
       setMessages((prev) => [...prev, assistantMsg])
     } catch (err: any) {
+      if (err.name === 'AbortError') {
+        console.log('Chat generation stream was aborted by user.')
+        return
+      }
       console.error('Chat stream error:', err)
-      const errorContent = `I encountered an issue processing your request: ${err?.message || 'Connection error'}. Please try again.`
+      const errorContent = `### ⚠️ Server is down, we are coming soon.\n\nOur AI service is currently unavailable. Please check back shortly or visit [indianatech.edu](https://www.indianatech.edu).`
       const fallbackMsg = await addMessage(user.uid, currentConv.id, {
         role: 'assistant',
         content: errorContent,
@@ -173,10 +273,19 @@ export default function ChatPage() {
     } finally {
       setIsGenerating(false)
       setStreamingContent('')
+      abortControllerRef.current = null
     }
   }
 
-  const handleSelectPrompt = (promptText: string, initialTitle: string) => {
+  const handleRegenerate = () => {
+    if (isGenerating) return
+    const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user')
+    if (lastUserMsg) {
+      handleSendMessage(lastUserMsg.content)
+    }
+  }
+
+  const handleSelectPrompt = (promptText: string) => {
     handleSendMessage(promptText)
   }
 
@@ -203,37 +312,53 @@ export default function ChatPage() {
   }
 
   return (
-    <ChatLayout
-      conversations={conversations}
-      grouped={grouped}
-      activeConversation={activeConversation}
-      user={user}
-      onSelectConversation={handleSelectConversation}
-      onNewChat={handleNewChat}
-      onDeleteConversation={handleDeleteConversation}
-      onSignOut={signOut}
-    >
-      <div className="flex min-h-full flex-col justify-between">
-        <div className="flex-1">
-          {displayMessages.length === 0 && !isGenerating ? (
-            <ChatWelcome onSelectPrompt={handleSelectPrompt} />
-          ) : (
-            <MessageList
-              messages={displayMessages}
-              isGenerating={isGenerating && !streamingContent}
-              userName={user.name}
-              onSelectSuggestion={handleSendMessage}
+    <>
+      <ChatLayout
+        conversations={conversations}
+        grouped={grouped}
+        activeConversation={activeConversation}
+        messages={messages}
+        user={user}
+        onSelectConversation={handleSelectConversation}
+        onNewChat={handleNewChat}
+        onDeleteConversation={handleDeleteConversation}
+        onTogglePin={handleTogglePin}
+        onRenameConversation={handleRenameConversation}
+        onClearAll={handleClearAll}
+        onOpenTuitionModal={() => setIsTuitionModalOpen(true)}
+        onSignOut={signOut}
+      >
+        <div className="flex min-h-full flex-col justify-between">
+          <div className="flex-1">
+            {displayMessages.length === 0 && !isGenerating ? (
+              <ChatWelcome onSelectPrompt={handleSelectPrompt} />
+            ) : (
+              <MessageList
+                messages={displayMessages}
+                isGenerating={isGenerating && !streamingContent}
+                userName={user.name}
+                onSelectSuggestion={handleSendMessage}
+                onRegenerate={handleRegenerate}
+              />
+            )}
+          </div>
+          <div className="sticky bottom-0 z-20 bg-gradient-to-t from-[#f8f9fa] via-[#f8f9fa]/95 to-transparent pt-4 dark:from-[#131314] dark:via-[#131314]/95 dark:to-transparent transition-colors duration-200">
+            <ChatInput
+              onSendMessage={handleSendMessage}
+              onStopGenerating={handleStopGenerating}
+              isGenerating={isGenerating}
+              initialValue={prefilledInput}
             />
-          )}
+          </div>
         </div>
-        <div className="sticky bottom-0 z-20 bg-gradient-to-t from-[#f8f9fa] via-[#f8f9fa]/95 to-transparent pt-4 dark:from-[#131314] dark:via-[#131314]/95 dark:to-transparent transition-colors duration-200">
-          <ChatInput
-            onSendMessage={handleSendMessage}
-            isGenerating={isGenerating}
-            initialValue={prefilledInput}
-          />
-        </div>
-      </div>
-    </ChatLayout>
+      </ChatLayout>
+
+      <TuitionEstimatorModal
+        isOpen={isTuitionModalOpen}
+        onClose={() => setIsTuitionModalOpen(false)}
+        onAskAssistant={handleSendMessage}
+      />
+    </>
   )
 }
+

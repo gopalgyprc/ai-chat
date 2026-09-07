@@ -47,7 +47,42 @@ function getIndianaTechOfflineAnswer(query: string): string {
     )
   }
 
-  // 1. Specific Individual Person / Faculty Lookups
+  // 1. Personal Introductions & Greetings (e.g. "I'm Gopal Prasad", "My name is ...", "Hello", "Hi")
+  const isIntro =
+    q.startsWith("i'm ") ||
+    q.startsWith("im ") ||
+    q.startsWith("i am ") ||
+    q.startsWith("my name is") ||
+    q === 'hi' ||
+    q === 'hello' ||
+    q === 'hey' ||
+    q === 'good morning' ||
+    q === 'good afternoon' ||
+    q === 'good evening' ||
+    q === 'greetings'
+
+  if (isIntro) {
+    let extractedName = ''
+    if (q.startsWith("i'm ")) extractedName = query.substring(4).trim()
+    else if (q.startsWith("im ")) extractedName = query.substring(3).trim()
+    else if (q.startsWith("i am ")) extractedName = query.substring(5).trim()
+    else if (q.startsWith("my name is ")) extractedName = query.substring(11).trim()
+
+    const greeting = extractedName ? `Hello **${extractedName}**! 👋` : 'Hello! 👋'
+
+    return (
+      `${greeting} Welcome to the **Indiana Tech Virtual Assistant**.\n\n` +
+      `How can I help you today with **Indiana Tech**? You can ask me about:\n` +
+      `• 🎓 **Degree Programs & Majors** (Engineering, CS, Cybersecurity, Business, Ph.D.)\n` +
+      `• 💵 **Tuition, Costs & Scholarships**\n` +
+      `• 🌍 **Admissions & International Requirements** (TOEFL/IELTS, Form I-20)\n` +
+      `• 👤 **Faculty & Academic Leadership Contacts**\n` +
+      `• 📜 **IRB Human Subjects Research Policies**\n` +
+      `• 🏆 **Campus Life, Athletics & Facilities**`
+    )
+  }
+
+  // 2. Specific Individual Person / Faculty Lookups
   if (q.includes('anne gull')) {
     return (
       `### 👤 Dr. Anne Gull\n\n` +
@@ -332,16 +367,57 @@ function getIndianaTechOfflineAnswer(query: string): string {
     )
   }
 
+  // 8. General Introductory Overview / Tell me about Indiana Tech
+  const isGeneralQuery =
+    q.includes('tell me about indiana tech') ||
+    q.includes('tale me about indiana tech') ||
+    q.includes('tell me something about indiana tech') ||
+    q.includes('tale me something about indiana tech') ||
+    q.includes('what is indiana tech') ||
+    q.includes('about indiana tech') ||
+    q.includes('overview of indiana tech') ||
+    q.includes('introduce indiana tech') ||
+    q.includes('tell me about university') ||
+    q.includes('tell me about the university') ||
+    q === 'indiana tech' ||
+    q === 'indiana institute of technology' ||
+    q.includes('who is indiana tech')
+
+  if (isGeneralQuery) {
+    return (
+      `### 🎓 Indiana Tech (Indiana Institute of Technology)\n\n` +
+      `**Indiana Tech** is a private, comprehensive, non-profit university founded in **1930** in **Fort Wayne, Indiana**. The university is dedicated to preparing students for successful careers and leadership in a tech-driven global society.\n\n` +
+      `---\n\n` +
+      `### 🏛️ Academic Colleges & Degrees\n` +
+      `• **Talwar College of Engineering & Computer Sciences:** ABET-accredited Engineering (Biomedical, Mechanical, Electrical), Computer Science, Cybersecurity, Information Technology, and Software Engineering.\n` +
+      `• **College of Business:** IACBE-accredited programs in Accounting, Management, Marketing, Sport Management, and the popular **MBA**.\n` +
+      `• **College of Arts & Sciences:** Criminal Justice, Psychology, Forensic Science, Digital Media, Pre-Law, and Exercise Science.\n` +
+      `• **College of Professional Studies (CPS):** 100% online accelerated degree programs for adult learners and working professionals worldwide.\n` +
+      `• **Doctoral Program:** **Ph.D. in Global Leadership** (Organizational Leadership and Higher Education tracks).\n\n` +
+      `---\n\n` +
+      `### 🌟 Key Facts & University Highlights\n` +
+      `• **Campus Location:** 1600 E. Washington Blvd., Fort Wayne, IN 46803 (45+ acre modern campus).\n` +
+      `• **University President:** Dr. Karl W. Einolf (serving since July 2017).\n` +
+      `• **Vice President for Academic Affairs:** Dr. Amie Anderson.\n` +
+      `• **Tuition & Value:** Traditional undergraduate tuition is ~$16,436/semester (~$32,872/year). Over 90% of students receive financial aid, and international students qualify for merit awards up to **$18,000/year**.\n` +
+      `• **Admissions:** Free online application on a rolling admissions basis.\n` +
+      `• **Athletics:** Home of the **Indiana Tech Warriors** (Mascot: **Maximus the Warrior**), competing in the NAIA Wolverine-Hoosier Athletic Conference (WHAC) across 25+ varsity sports.\n` +
+      `• **Accreditation:** Regionally accredited by the **Higher Learning Commission (HLC)**.\n\n` +
+      `---\n\n` +
+      `Feel free to ask me anything specific about **admissions, degree programs, tuition costs & scholarships, international I-20 requirements, leadership contacts, or IRB research policies!**`
+    )
+  }
+
+  // 9. Conversational Fallback for ambiguous queries
   return (
-    `**Indiana Tech (Indiana Institute of Technology)**\n\n` +
-    `I can help you with official information from [indianatech.edu](https://www.indianatech.edu) regarding:\n` +
-    `• **Academic Majors & Colleges** (Engineering, Computer Science, Business, Arts & Sciences, Ph.D.)\n` +
-    `• **Leadership & Staff Contacts** (Academic Affairs, Deans, Program Directors)\n` +
-    `• **IRB Human Subjects Research Policies & CITI Training**\n` +
-    `• **Tuition, Costs & Scholarships**\n` +
-    `• **Admissions & International Requirements** (TOEFL/IELTS, Form I-20)\n` +
-    `• **Campus Life, President & NAIA Warriors Athletics**\n\n` +
-    `Please ask any specific question about Indiana Tech!`
+    `Hello! I am the **Indiana Tech Virtual Assistant**.\n\n` +
+    `I am here to help you with official information from **[indianatech.edu](https://www.indianatech.edu)**.\n\n` +
+    `How can I assist you? You can ask me:\n` +
+    `• *"What degree programs are offered in Computer Science & Engineering?"*\n` +
+    `• *"How much is undergraduate tuition and what scholarships are available?"*\n` +
+    `• *"What are the international admission requirements for Form I-20?"*\n` +
+    `• *"Who is the Dean of the College of Business or Arts & Sciences?"*\n` +
+    `• *"What are the IRB review categories and CITI training requirements?"*`
   )
 }
 
@@ -357,12 +433,10 @@ export async function streamGeminiChat(
     ''
 
   const candidateModels = [
+    'gemini-3.6-flash',
+    'gemini-3.1-pro',
     'gemini-2.0-flash',
     'gemini-1.5-flash',
-    'gemini-2.0-flash-lite-preview-02-05',
-    'gemini-1.5-pro',
-    'gemini-2.5-flash',
-    'gemini-2.5-pro',
   ]
 
   const formattedContents: any[] = [
@@ -415,9 +489,13 @@ export async function streamGeminiChat(
     }
   }
 
-  // Graceful fallback responding strictly within Indiana Tech scope
-  const fallbackAnswer = getIndianaTechOfflineAnswer(message)
-  const words = fallbackAnswer.split(' ')
+  // When API is not working properly, show explicit server down message
+  const serverDownMessage =
+    `### ⚠️ Server is down, we are coming soon.\n\n` +
+    `Our AI service is currently undergoing maintenance or experiencing a temporary outage. ` +
+    `Please check back shortly or explore official university information directly at **[indianatech.edu](https://www.indianatech.edu)**.`
+
+  const words = serverDownMessage.split(' ')
   let accumulated = ''
   for (let i = 0; i < words.length; i++) {
     const chunk = (i === 0 ? '' : ' ') + words[i]

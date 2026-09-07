@@ -178,3 +178,30 @@
     font-family: var(--font-poppins), 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 }
+
+/* =========================================================
+   Print Stylesheet
+   ========================================================= */
+@media print {
+  @page {
+    size: auto;
+    margin: 15mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  aside,
+  header,
+  nav,
+  form,
+  button,
+  .sticky,
+  .fixed,
+  [role="dialog"] {
+    display: none !important;
+  }
+}
+

@@ -12,6 +12,7 @@ interface MessageListProps {
   isGenerating?: boolean
   userName?: string
   onSelectSuggestion?: (question: string) => void
+  onRegenerate?: () => void
 }
 
 export function MessageList({
@@ -19,6 +20,7 @@ export function MessageList({
   isGenerating = false,
   userName,
   onSelectSuggestion,
+  onRegenerate,
 }: MessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -43,8 +45,32 @@ export function MessageList({
 
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col px-4 py-6">
-      {messages.map((msg) => (
-        <MessageBubble key={msg.id} message={msg} userName={userName} />
+      {/* Print-Only Official Academic Letterhead */}
+      <div className="hidden print:block mb-8 pb-4 border-b-2 border-neutral-900">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-neutral-900 uppercase">
+              Indiana Tech Virtual Assistant
+            </h1>
+            <p className="text-xs text-neutral-600">
+              Official Academic & Advisory Consultation Transcript
+            </p>
+          </div>
+          <div className="text-right text-xs text-neutral-500">
+            <p className="font-semibold text-neutral-900">indianatech.edu</p>
+            <p>{new Date().toLocaleDateString()} • {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+          </div>
+        </div>
+      </div>
+
+      {messages.map((msg, idx) => (
+        <MessageBubble
+          key={msg.id}
+          message={msg}
+          userName={userName}
+          isLastAssistant={idx === messages.length - 1 && msg.role === 'assistant' && !isGenerating}
+          onRegenerate={onRegenerate}
+        />
       ))}
 
       {isGenerating && <TypingIndicator />}

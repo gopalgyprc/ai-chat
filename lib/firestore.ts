@@ -190,6 +190,7 @@ export function subscribeToUserConversations(
               createdAt: data.createdAt?.toMillis?.() || Date.now(),
               updatedAt: data.updatedAt?.toMillis?.() || Date.now(),
               lastMessage: data.lastMessage,
+              isPinned: !!data.isPinned,
             }
           })
           saveLocalConversations(userId, convs)
@@ -303,7 +304,6 @@ export function subscribeToMessages(
 }
 
 export async function deleteConversation(userId: string, conversationId: string): Promise<void> {
-
   const convs = getLocalConversations(userId).filter((c) => c.id !== conversationId)
   saveLocalConversations(userId, convs)
   if (typeof window !== 'undefined') {
@@ -345,9 +345,55 @@ export async function updateConversationTitle(
   }
 }
 
+export async function togglePinConversation(
+  userId: string,
+  conversationId: string
+): Promise<boolean> {
+  const convs = getLocalConversations(userId)
+  let newPinnedState = false
+  const updatedConvs = convs.map((c) => {
+    if (c.id === conversationId) {
+      newPinnedState = !c.isPinned
+      return { ...c, isPinned: newPinnedState, updatedAt: Date.now() }
+    }
+    return c
+  })
+  saveLocalConversations(userId, updatedConvs)
+
+  if (isFirebaseConfigured) {
+    try {
+      const convRef = doc(db, 'users', userId, 'conversations', conversationId)
+      updateDoc(convRef, {
+        isPinned: newPinnedState,
+        updatedAt: serverTimestamp(),
+      }).catch(() => { })
+    } catch (e: any) {
+      console.warn('Firestore togglePinConversation notice:', e?.message)
+    }
+  }
+
+  return newPinnedState
+}
+
+export async function clearAllConversations(userId: string): Promise<void> {
+  const convs = getLocalConversations(userId)
+  convs.forEach((c) => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(`${LOCAL_STORAGE_MESSAGES_KEY_PREFIX}${c.id}`)
+    }
+    if (isFirebaseConfigured) {
+      try {
+        const convRef = doc(db, 'users', userId, 'conversations', c.id)
+        deleteDoc(convRef).catch(() => { })
+      } catch { }
+    }
+  })
+  saveLocalConversations(userId, [])
+}
 
 export function groupConversations(conversations: Conversation[]): GroupedConversations {
   const grouped: GroupedConversations = {
+    pinned: [],
     previous30Days: [],
     july: [],
     june: [],
@@ -359,6 +405,11 @@ export function groupConversations(conversations: Conversation[]): GroupedConver
   const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000
 
   conversations.forEach((conv) => {
+    if (conv.isPinned) {
+      grouped.pinned.push(conv)
+      return
+    }
+
     const age = now - conv.createdAt
     const date = new Date(conv.createdAt)
     const month = date.getMonth()

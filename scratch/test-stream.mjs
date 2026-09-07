@@ -1,27 +1,23 @@
 import { GoogleGenAI } from '@google/genai'
+import dotenv from 'dotenv'
+dotenv.config({ path: '.env.local' })
 
 const key = process.env.GEMINI_API_KEY || process.env.AI_API_KEY || ''
-const ai = new GoogleGenAI({ apiKey: key })
 
-async function testStreaming() {
-  const models = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.5-pro', 'gemini-3.5-flash']
-  for (const m of models) {
-    try {
-      console.log(`\nTesting stream with ${m}...`)
-      const stream = await ai.models.generateContentStream({
-        model: m,
-        contents: [{ role: 'user', parts: [{ text: 'Explain university semester exam strategy in 2 sentences' }] }]
-      })
-      let out = ''
-      for await (const chunk of stream) {
-        out += chunk.text || ''
-      }
-      console.log(`[SUCCESS with ${m}]:\n`, out.trim())
-      return m
-    } catch (e) {
-      console.log(`[FAILED with ${m}]:`, e.message)
-    }
+async function testStream() {
+  const ai = new GoogleGenAI({ apiKey: key })
+  console.log('Testing generateContentStream with gemini-3.6-flash...')
+  const stream = await ai.models.generateContentStream({
+    model: 'gemini-3.6-flash',
+    contents: [{ role: 'user', parts: [{ text: 'Say "Indiana Tech Virtual Assistant is online!"' }] }]
+  })
+
+  let out = ''
+  for await (const chunk of stream) {
+    process.stdout.write(chunk.text || '')
+    out += chunk.text || ''
   }
+  console.log('\n\nStream Finished! Full output:', out)
 }
 
-testStreaming()
+testStream()

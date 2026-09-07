@@ -1,18 +1,47 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Sparkles, Copy, Check } from 'lucide-react'
+import {
+  Sparkles,
+  Copy,
+  Check,
+  Volume2,
+  VolumeX,
+  ThumbsUp,
+  ThumbsDown,
+  RotateCcw,
+  Mail,
+  ExternalLink,
+  BookOpen,
+} from 'lucide-react'
 import { ChatMessage } from '@/types/chat'
 
 interface MessageBubbleProps {
   message: ChatMessage
   userName?: string
+  isLastAssistant?: boolean
+  onRegenerate?: () => void
 }
 
-export function MessageBubble({ message, userName }: MessageBubbleProps) {
+export function MessageBubble({
+  message,
+  userName,
+  isLastAssistant = false,
+  onRegenerate,
+}: MessageBubbleProps) {
   const [copied, setCopied] = useState(false)
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const [feedback, setFeedback] = useState<'like' | 'dislike' | null>(null)
   const isUser = message.role === 'user'
+
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel()
+      }
+    }
+  }, [])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(message.content)
@@ -20,11 +49,44 @@ export function MessageBubble({ message, userName }: MessageBubbleProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
+  const handleToggleSpeech = () => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return
+
+    if (isSpeaking) {
+      window.speechSynthesis.cancel()
+      setIsSpeaking(false)
+    } else {
+      window.speechSynthesis.cancel()
+      // Strip markdown symbols for natural TTS reading
+      const cleanText = message.content
+        .replace(/[*#_`~[\]()]/g, '')
+        .replace(/https?:\/\/\S+/g, '')
+        .trim()
+
+      const utterance = new SpeechSynthesisUtterance(cleanText)
+      utterance.rate = 1.0
+      utterance.pitch = 1.0
+      utterance.onend = () => setIsSpeaking(false)
+      utterance.onerror = () => setIsSpeaking(false)
+
+      setIsSpeaking(true)
+      window.speechSynthesis.speak(utterance)
+    }
+  }
+
+  const handleFeedback = (type: 'like' | 'dislike') => {
+    setFeedback((prev) => (prev === type ? null : type))
+  }
+
   const formatTime = (ts: number) => {
     if (!ts) return ''
     const d = new Date(ts)
     return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
+
+  // Detect email for direct 1-click mailto
+  const emailMatch = !isUser && message.content.match(/([a-zA-Z0-9._-]+@indianatech\.edu)/i)
+  const extractedEmail = emailMatch ? emailMatch[1] : null
 
   if (isUser) {
     return (
@@ -56,13 +118,39 @@ export function MessageBubble({ message, userName }: MessageBubbleProps) {
             <div className="prose max-w-none text-[15px] sm:text-base leading-relaxed space-y-3.5 [&_p]:my-2.5 [&_h1]:text-xl [&_h2]:text-lg [&_h3]:text-base [&_h1]:font-bold [&_h2]:font-semibold [&_h3]:font-semibold [&_ul]:pl-5 [&_ol]:pl-5 [&_li]:my-1 [&_strong]:font-semibold [&_strong]:text-amber-700 dark:[&_strong]:text-amber-200 [&_code]:rounded [&_code]:bg-neutral-100 dark:[&_code]:bg-white/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-amber-800 dark:[&_code]:text-amber-300 [&_pre]:rounded-xl [&_pre]:bg-neutral-900 dark:[&_pre]:bg-black/50 [&_pre]:text-white [&_pre]:p-4 [&_blockquote]:border-l-2 [&_blockquote]:border-amber-500 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-neutral-600 dark:[&_blockquote]:text-white/70">
               <ReactMarkdown>{message.content}</ReactMarkdown>
             </div>
+
+            {/* Quick Action Contact / Resource Pill if email exists */}
+            {extractedEmail && (
+              <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-white/10 flex flex-wrap items-center gap-2">
+                <a
+                  href={`mailto:${extractedEmail}`}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs font-semibold text-amber-700 dark:text-amber-300 hover:bg-amber-500/20 transition-colors"
+                >
+                  <Mail className="size-3.5" />
+                  <span>Email {extractedEmail}</span>
+                </a>
+                <a
+                  href="https://academics.indianatech.edu/faculty/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-xs font-medium text-neutral-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80 hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors"
+                >
+                  <ExternalLink className="size-3" />
+                  <span>Faculty Directory</span>
+                </a>
+              </div>
+            )}
           </div>
-          <div className="mt-2 flex items-center gap-4 text-xs text-neutral-500 dark:text-white/50">
+
+          {/* Action Toolbar */}
+          <div className="mt-2.5 flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-neutral-500 dark:text-white/50">
             <span>{formatTime(message.createdAt)}</span>
+
+            {/* Copy Button */}
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
-              title="Copy message"
+              className="flex items-center gap-1 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
+              title="Copy message text"
             >
               {copied ? (
                 <>
@@ -76,9 +164,76 @@ export function MessageBubble({ message, userName }: MessageBubbleProps) {
                 </>
               )}
             </button>
+
+            {/* Text-to-Speech (TTS) Read Aloud Button */}
+            <button
+              onClick={handleToggleSpeech}
+              className={`flex items-center gap-1 transition-colors cursor-pointer ${
+                isSpeaking
+                  ? 'text-amber-600 dark:text-amber-400 font-semibold'
+                  : 'hover:text-neutral-900 dark:hover:text-white'
+              }`}
+              title={isSpeaking ? 'Stop audio' : 'Read aloud'}
+            >
+              {isSpeaking ? (
+                <>
+                  <VolumeX className="size-3.5 animate-pulse" />
+                  <span>Speaking...</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="size-3.5" />
+                  <span>Read Aloud</span>
+                </>
+              )}
+            </button>
+
+            {/* Thumbs Up / Down Feedback */}
+            <div className="flex items-center gap-1.5 border-l border-neutral-300 pl-3 dark:border-white/15">
+              <button
+                onClick={() => handleFeedback('like')}
+                className={`p-1 rounded-md transition-colors cursor-pointer ${
+                  feedback === 'like'
+                    ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
+                    : 'hover:text-neutral-900 dark:hover:text-white'
+                }`}
+                title="Helpful response"
+              >
+                <ThumbsUp className="size-3.5" />
+              </button>
+              <button
+                onClick={() => handleFeedback('dislike')}
+                className={`p-1 rounded-md transition-colors cursor-pointer ${
+                  feedback === 'dislike'
+                    ? 'text-red-600 dark:text-red-400 bg-red-500/10'
+                    : 'hover:text-neutral-900 dark:hover:text-white'
+                }`}
+                title="Not helpful"
+              >
+                <ThumbsDown className="size-3.5" />
+              </button>
+              {feedback && (
+                <span className="text-[11px] text-neutral-400 dark:text-white/40 animate-fade-in">
+                  Thanks for your feedback!
+                </span>
+              )}
+            </div>
+
+            {/* Regenerate Button on Latest Response */}
+            {isLastAssistant && onRegenerate && (
+              <button
+                onClick={onRegenerate}
+                className="flex items-center gap-1 hover:text-amber-600 dark:hover:text-amber-400 transition-colors cursor-pointer"
+                title="Regenerate this response"
+              >
+                <RotateCcw className="size-3.5" />
+                <span>Regenerate</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
     </div>
   )
 }
+
