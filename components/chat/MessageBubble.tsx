@@ -1,19 +1,16 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import {
   Sparkles,
   Copy,
   Check,
-  Volume2,
-  VolumeX,
   ThumbsUp,
   ThumbsDown,
   RotateCcw,
   Mail,
   ExternalLink,
-  BookOpen,
 } from 'lucide-react'
 import { ChatMessage } from '@/types/chat'
 
@@ -31,47 +28,13 @@ export function MessageBubble({
   onRegenerate,
 }: MessageBubbleProps) {
   const [copied, setCopied] = useState(false)
-  const [isSpeaking, setIsSpeaking] = useState(false)
   const [feedback, setFeedback] = useState<'like' | 'dislike' | null>(null)
   const isUser = message.role === 'user'
-
-  useEffect(() => {
-    return () => {
-      if (typeof window !== 'undefined' && window.speechSynthesis) {
-        window.speechSynthesis.cancel()
-      }
-    }
-  }, [])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(message.content)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
-  }
-
-  const handleToggleSpeech = () => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return
-
-    if (isSpeaking) {
-      window.speechSynthesis.cancel()
-      setIsSpeaking(false)
-    } else {
-      window.speechSynthesis.cancel()
-      // Strip markdown symbols for natural TTS reading
-      const cleanText = message.content
-        .replace(/[*#_`~[\]()]/g, '')
-        .replace(/https?:\/\/\S+/g, '')
-        .trim()
-
-      const utterance = new SpeechSynthesisUtterance(cleanText)
-      utterance.rate = 1.0
-      utterance.pitch = 1.0
-      utterance.onend = () => setIsSpeaking(false)
-      utterance.onerror = () => setIsSpeaking(false)
-
-      setIsSpeaking(true)
-      window.speechSynthesis.speak(utterance)
-    }
   }
 
   const handleFeedback = (type: 'like' | 'dislike') => {
@@ -165,29 +128,6 @@ export function MessageBubble({
               )}
             </button>
 
-            {/* Text-to-Speech (TTS) Read Aloud Button */}
-            <button
-              onClick={handleToggleSpeech}
-              className={`flex items-center gap-1 transition-colors cursor-pointer ${
-                isSpeaking
-                  ? 'text-amber-600 dark:text-amber-400 font-semibold'
-                  : 'hover:text-neutral-900 dark:hover:text-white'
-              }`}
-              title={isSpeaking ? 'Stop audio' : 'Read aloud'}
-            >
-              {isSpeaking ? (
-                <>
-                  <VolumeX className="size-3.5 animate-pulse" />
-                  <span>Speaking...</span>
-                </>
-              ) : (
-                <>
-                  <Volume2 className="size-3.5" />
-                  <span>Read Aloud</span>
-                </>
-              )}
-            </button>
-
             {/* Thumbs Up / Down Feedback */}
             <div className="flex items-center gap-1.5 border-l border-neutral-300 pl-3 dark:border-white/15">
               <button
@@ -236,4 +176,3 @@ export function MessageBubble({
     </div>
   )
 }
-

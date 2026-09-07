@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { Sparkles, Send, Square, Mic, MicOff } from 'lucide-react'
+import { Sparkles, Send, Square } from 'lucide-react'
 
 interface ChatInputProps {
   onSendMessage: (content: string) => void
@@ -19,16 +19,9 @@ export function ChatInput({
   initialValue = '',
 }: ChatInputProps) {
   const [text, setText] = useState(initialValue)
-  const [isListening, setIsListening] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const recognitionRef = useRef<any>(null)
-  const baseTextRef = useRef<string>('')
-  const isListeningRef = useRef<boolean>(false)
-  const textRef = useRef<string>(initialValue)
 
-  // Synchronize textRef with current text state
   useEffect(() => {
-    textRef.current = text
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
       textareaRef.current.style.height = `${Math.min(
@@ -51,113 +44,10 @@ export function ChatInput({
     textareaRef.current?.focus({ preventScroll: true })
   }, [isGenerating])
 
-  // Synchronize isListeningRef with listening state
-  useEffect(() => {
-    isListeningRef.current = isListening
-  }, [isListening])
-
-  const stopListening = () => {
-    isListeningRef.current = false
-    setIsListening(false)
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.stop()
-      } catch (err) {
-        // Safe ignore
-      }
-    }
-  }
-
-  // Speech-to-Text initialization with mobile-safe non-duplicating transcript handling
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const SpeechRecognition =
-        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-      if (SpeechRecognition) {
-        const recognition = new SpeechRecognition()
-        recognition.continuous = false
-        recognition.interimResults = true
-        recognition.lang = 'en-US'
-
-        recognition.onresult = (event: any) => {
-          let currentUtterance = ''
-          for (let i = 0; i < event.results.length; i++) {
-            const item = event.results[i]
-            if (item && item[0] && item[0].transcript) {
-              currentUtterance += item[0].transcript
-            }
-          }
-
-          const base = baseTextRef.current.trim()
-          const spoken = currentUtterance.trim()
-          const combined = base ? `${base} ${spoken}` : spoken
-
-          setText(combined)
-        }
-
-        recognition.onerror = (e: any) => {
-          if (e?.error === 'not-allowed') {
-            console.warn('Microphone permission denied')
-            stopListening()
-          } else if (e?.error !== 'no-speech' && e?.error !== 'aborted') {
-            console.warn('Speech recognition notice:', e?.error)
-          }
-        }
-
-        recognition.onend = () => {
-          if (isListeningRef.current) {
-            baseTextRef.current = textRef.current.trim()
-            try {
-              recognition.start()
-            } catch (err) {
-              stopListening()
-            }
-          } else {
-            setIsListening(false)
-          }
-        }
-
-        recognitionRef.current = recognition
-      }
-    }
-
-    return () => {
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.abort()
-        } catch (e) {}
-      }
-    }
-  }, [])
-
-  const toggleVoiceListening = () => {
-    if (!recognitionRef.current) {
-      alert('Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.')
-      return
-    }
-
-    if (isListening) {
-      stopListening()
-    } else {
-      try {
-        baseTextRef.current = text.trim()
-        isListeningRef.current = true
-        setIsListening(true)
-        recognitionRef.current.start()
-      } catch (err) {
-        console.warn('Voice start notice:', err)
-        stopListening()
-      }
-    }
-  }
-
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) {
       e.preventDefault()
       e.stopPropagation()
-    }
-    if (isListening) {
-      stopListening()
     }
     if (isGenerating && onStopGenerating) {
       onStopGenerating()
@@ -194,11 +84,7 @@ export function ChatInput({
     <div className="mx-auto w-full max-w-4xl px-4 pb-4">
       <form
         onSubmit={handleSubmit}
-        className={`relative flex items-center gap-2.5 sm:gap-3 rounded-2xl border bg-white px-3 sm:px-4 py-3 shadow-lg transition-all focus-within:border-amber-500 focus-within:ring-1 focus-within:ring-amber-500/40 dark:bg-[#202022] dark:focus-within:border-amber-400/50 dark:focus-within:ring-amber-400/30 ${
-          isListening
-            ? 'border-red-500 ring-2 ring-red-500/30 dark:border-red-400'
-            : 'border-neutral-300 dark:border-white/10'
-        }`}
+        className="relative flex items-center gap-2.5 sm:gap-3 rounded-2xl border border-neutral-300 bg-white px-3 sm:px-4 py-3 shadow-lg transition-all focus-within:border-amber-500 focus-within:ring-1 focus-within:ring-amber-500/40 dark:border-white/10 dark:bg-[#202022] dark:focus-within:border-amber-400/50 dark:focus-within:ring-amber-400/30"
       >
         <div className="flex shrink-0 items-center justify-center text-amber-500 dark:text-amber-400">
           <Sparkles className="size-5" />
@@ -212,27 +98,9 @@ export function ChatInput({
           disabled={disabled}
           rows={1}
           autoFocus
-          placeholder={
-            isListening
-              ? '🎙️ Listening... speak now...'
-              : 'Ask anything about Indiana Tech (programs, tuition, admissions)...'
-          }
+          placeholder="Ask anything about Indiana Tech (programs, tuition, admissions)..."
           className="max-h-44 min-h-[26px] flex-1 resize-none bg-transparent text-[15px] sm:text-base text-neutral-900 placeholder-neutral-400 outline-none leading-relaxed dark:text-white dark:placeholder-white/45"
         />
-
-        {/* Voice Input (Speech-to-Text) Button */}
-        <button
-          type="button"
-          onClick={toggleVoiceListening}
-          className={`flex size-9 shrink-0 items-center justify-center rounded-xl transition-all cursor-pointer ${
-            isListening
-              ? 'bg-red-500 text-white animate-pulse shadow-md shadow-red-500/30'
-              : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/15 dark:hover:text-white'
-          }`}
-          title={isListening ? 'Stop listening' : 'Voice input (Speech to Text)'}
-        >
-          {isListening ? <MicOff className="size-4" /> : <Mic className="size-4" />}
-        </button>
 
         {/* Submit or Stop Generation Button */}
         {isGenerating ? (
@@ -262,4 +130,3 @@ export function ChatInput({
     </div>
   )
 }
-

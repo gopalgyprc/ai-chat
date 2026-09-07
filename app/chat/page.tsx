@@ -7,7 +7,6 @@ import { ChatLayout } from '@/components/chat/ChatLayout'
 import { ChatWelcome } from '@/components/chat/ChatWelcome'
 import { MessageList } from '@/components/chat/MessageList'
 import { ChatInput } from '@/components/chat/ChatInput'
-import { TuitionEstimatorModal } from '@/components/chat/TuitionEstimatorModal'
 import { Conversation } from '@/types/conversation'
 import { ChatMessage } from '@/types/chat'
 import {
@@ -33,7 +32,6 @@ export default function ChatPage() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [streamingContent, setStreamingContent] = useState<string>('')
   const [prefilledInput, setPrefilledInput] = useState<string>('')
-  const [isTuitionModalOpen, setIsTuitionModalOpen] = useState(false)
 
   const abortControllerRef = useRef<AbortController | null>(null)
   const activeStreamContentRef = useRef<string>('')
@@ -312,53 +310,43 @@ export default function ChatPage() {
   }
 
   return (
-    <>
-      <ChatLayout
-        conversations={conversations}
-        grouped={grouped}
-        activeConversation={activeConversation}
-        messages={messages}
-        user={user}
-        onSelectConversation={handleSelectConversation}
-        onNewChat={handleNewChat}
-        onDeleteConversation={handleDeleteConversation}
-        onTogglePin={handleTogglePin}
-        onRenameConversation={handleRenameConversation}
-        onClearAll={handleClearAll}
-        onOpenTuitionModal={() => setIsTuitionModalOpen(true)}
-        onSignOut={signOut}
-      >
-        <div className="flex min-h-full flex-col justify-between">
-          <div className="flex-1">
-            {displayMessages.length === 0 && !isGenerating ? (
-              <ChatWelcome onSelectPrompt={handleSelectPrompt} />
-            ) : (
-              <MessageList
-                messages={displayMessages}
-                isGenerating={isGenerating && !streamingContent}
-                userName={user.name}
-                onSelectSuggestion={handleSendMessage}
-                onRegenerate={handleRegenerate}
-              />
-            )}
-          </div>
-          <div className="sticky bottom-0 z-20 bg-gradient-to-t from-[#f8f9fa] via-[#f8f9fa]/95 to-transparent pt-4 dark:from-[#131314] dark:via-[#131314]/95 dark:to-transparent transition-colors duration-200">
-            <ChatInput
-              onSendMessage={handleSendMessage}
-              onStopGenerating={handleStopGenerating}
-              isGenerating={isGenerating}
-              initialValue={prefilledInput}
+    <ChatLayout
+      conversations={conversations}
+      grouped={grouped}
+      activeConversation={activeConversation}
+      messages={messages}
+      user={user}
+      onSelectConversation={handleSelectConversation}
+      onNewChat={handleNewChat}
+      onDeleteConversation={handleDeleteConversation}
+      onTogglePin={handleTogglePin}
+      onRenameConversation={handleRenameConversation}
+      onClearAll={handleClearAll}
+      onSignOut={signOut}
+    >
+      <div className="flex min-h-full flex-col justify-between">
+        <div className="flex-1">
+          {displayMessages.length === 0 && !isGenerating ? (
+            <ChatWelcome onSelectPrompt={handleSelectPrompt} />
+          ) : (
+            <MessageList
+              messages={displayMessages}
+              isGenerating={isGenerating && !streamingContent}
+              userName={user.name}
+              onSelectSuggestion={handleSendMessage}
+              onRegenerate={handleRegenerate}
             />
-          </div>
+          )}
         </div>
-      </ChatLayout>
-
-      <TuitionEstimatorModal
-        isOpen={isTuitionModalOpen}
-        onClose={() => setIsTuitionModalOpen(false)}
-        onAskAssistant={handleSendMessage}
-      />
-    </>
+        <div className="sticky bottom-0 z-20 bg-gradient-to-t from-[#f8f9fa] via-[#f8f9fa]/95 to-transparent pt-4 dark:from-[#131314] dark:via-[#131314]/95 dark:to-transparent transition-colors duration-200">
+          <ChatInput
+            onSendMessage={handleSendMessage}
+            onStopGenerating={handleStopGenerating}
+            isGenerating={isGenerating}
+            initialValue={prefilledInput}
+          />
+        </div>
+      </div>
+    </ChatLayout>
   )
 }
-
