@@ -22,6 +22,7 @@ export function ChatInput({
   const [isListening, setIsListening] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const recognitionRef = useRef<any>(null)
+  const baseTextRef = useRef<string>('')
 
   useEffect(() => {
     textareaRef.current?.focus({ preventScroll: true })
@@ -46,25 +47,38 @@ export function ChatInput({
     }
   }, [text])
 
-  // Speech-to-Text initialization
+  // Speech-to-Text initialization with clean non-duplicating transcript handling
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const SpeechRecognition =
         (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition()
-        recognition.continuous = false
+        recognition.continuous = true
         recognition.interimResults = true
         recognition.lang = 'en-US'
 
         recognition.onresult = (event: any) => {
-          let currentTranscript = ''
-          for (let i = event.resultIndex; i < event.results.length; i++) {
-            currentTranscript += event.results[i][0].transcript
+          let finalTranscript = ''
+          let interimTranscript = ''
+
+          for (let i = 0; i < event.results.length; i++) {
+            const item = event.results[i]
+            if (item && item[0] && item[0].transcript) {
+              const piece = item[0].transcript.trim()
+              if (item.isFinal) {
+                finalTranscript += (finalTranscript ? ' ' : '') + piece
+              } else {
+                interimTranscript += (interimTranscript ? ' ' : '') + piece
+              }
+            }
           }
-          if (currentTranscript) {
-            setText((prev) => (prev ? prev + ' ' + currentTranscript : currentTranscript))
-          }
+
+          const base = baseTextRef.current
+          const spoken = [finalTranscript, interimTranscript].filter(Boolean).join(' ').trim()
+          const combined = base ? `${base} ${spoken}` : spoken
+
+          setText(combined)
         }
 
         recognition.onerror = (e: any) => {
@@ -92,6 +106,7 @@ export function ChatInput({
       setIsListening(false)
     } else {
       try {
+        baseTextRef.current = text.trim()
         recognitionRef.current.start()
         setIsListening(true)
       } catch (err) {
